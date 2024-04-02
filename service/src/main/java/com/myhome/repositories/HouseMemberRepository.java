@@ -46,3 +46,5 @@ public interface HouseMemberRepository extends CrudRepository<HouseMember, Long>
 
 
 
+
+
