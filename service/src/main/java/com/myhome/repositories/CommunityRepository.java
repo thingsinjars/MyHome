@@ -55,3 +55,5 @@ public interface CommunityRepository extends PagingAndSortingRepository<Communit
 
 
 
+
+
