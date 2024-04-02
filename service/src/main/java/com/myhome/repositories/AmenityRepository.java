@@ -35,3 +35,5 @@ public interface AmenityRepository extends JpaRepository<Amenity, Long> {
 
 
 
+
+

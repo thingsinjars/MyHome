@@ -48,3 +48,5 @@ public interface CommunityHouseRepository extends PagingAndSortingRepository<Com
 
 
 
+
+
