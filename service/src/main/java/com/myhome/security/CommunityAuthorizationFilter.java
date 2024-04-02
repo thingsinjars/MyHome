@@ -28,6 +28,20 @@ public class CommunityAuthorizationFilter extends BasicAuthenticationFilter {
         this.communityService = communityService;
     }
 
+    /**
+     * determines if the requested URL matches a pattern for administrative requests and
+     * checks if the user is a community admin. If not, it responds with a HTTP status
+     * code of `SC_UNAUTHORIZED`. Otherwise, it passes the request to the next filter in
+     * the chain using `super.doFilterInternal()`.
+     * 
+     * @param request HTTP request that is being processed by the filter.
+     * 
+     * @param response HttpServletResponse object that contains information about the
+     * current HTTP request and is used to handle the response accordingly.
+     * 
+     * @param chain filter chain that the current filter is part of, and allows the current
+     * filter to perform its functionality as the next step in the chain.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
@@ -42,6 +56,16 @@ public class CommunityAuthorizationFilter extends BasicAuthenticationFilter {
         super.doFilterInternal(request, response, chain);
     }
 
+    /**
+     * determines whether a user is an administrator of a community based on their user
+     * ID and the community ID in the HTTP request.
+     * 
+     * @param request HTTP request being processed, providing information about the current
+     * user and community being accessed.
+     * 
+     * @returns a boolean value indicating whether the user is a community administrator
+     * for the specified community.
+     */
     private boolean isUserCommunityAdmin(HttpServletRequest request) {
         String userId = (String) SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal();

@@ -27,10 +27,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ConfigurationPropertiesScan
 public class MyHomeServiceApplication {
 
+  /**
+   * initializes and runs a SpringApplication instance for the `MyHomeServiceApplication`
+   * class, passing the `String[] args` as arguments to the application.
+   * 
+   * @param args 1 or more command-line arguments passed to the `SpringApplication.run()`
+   * method when executing the application.
+   */
   public static void main(String[] args) {
     SpringApplication.run(MyHomeServiceApplication.class, args);
   }
 
+  /**
+   * returns a `BCryptPasswordEncoder` instance to encode passwords securely using
+   * bcrypt algorithm.
+   * 
+   * @returns a `BCryptPasswordEncoder` instance for password hashing and verification.
+   */
   @Bean
   public PasswordEncoder getPasswordEncoder() {
     return new BCryptPasswordEncoder();

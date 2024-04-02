@@ -60,6 +60,17 @@ public class CommunityController implements CommunitiesApi {
   private final CommunityService communityService;
   private final CommunityApiMapper communityApiMapper;
 
+  /**
+   * takes a `CreateCommunityRequest` object as input and creates a new community using
+   * the provided details, mapping the request to a `CommunityDto` object beforehand.
+   * It then returns the created community in the form of a `CreateCommunityResponse`.
+   * 
+   * @param request CreateCommunityRequest object containing the data for the community
+   * to be created, which is used by the method to create the corresponding community
+   * entity.
+   * 
+   * @returns a `CreateCommunityResponse` object containing the created community details.
+   */
   @Override
   public ResponseEntity<CreateCommunityResponse> createCommunity(@Valid @RequestBody
       CreateCommunityRequest request) {
@@ -72,6 +83,16 @@ public class CommunityController implements CommunitiesApi {
     return ResponseEntity.status(HttpStatus.CREATED).body(createdCommunityResponse);
   }
 
+  /**
+   * receives a pageable request, lists all communities from the service using the
+   * `listAll` method, and maps them to the REST API response format using the
+   * `communityApiMapper`. It then returns the response entity with the listed communities.
+   * 
+   * @param pageable page request parameters, including the page number, size, and sort
+   * order, which allow for pagination of the community list.
+   * 
+   * @returns a list of community details as `GetCommunityDetailsResponse`.
+   */
   @Override
   public ResponseEntity<GetCommunityDetailsResponse> listAllCommunity(
       @PageableDefault(size = 200) Pageable pageable) {
@@ -87,6 +108,16 @@ public class CommunityController implements CommunitiesApi {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
+  /**
+   * retrieves community details based on a given ID and maps them to a
+   * `GetCommunityDetailsResponse` object for return.
+   * 
+   * @param communityId ID of the community for which details are requested, and is
+   * used to retrieve the corresponding community details from the service.
+   * 
+   * @returns a `ResponseEntity` object with a status of `OK` and a list of communities
+   * in the `communities` field.
+   */
   @Override
   public ResponseEntity<GetCommunityDetailsResponse> listCommunityDetails(
       @PathVariable String communityId) {
@@ -101,6 +132,18 @@ public class CommunityController implements CommunitiesApi {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
+  /**
+   * retrieves a list of community admins for a given community ID using the
+   * `communityService` and maps them to a REST API response.
+   * 
+   * @param communityId ID of the community for which the list of admins is being requested.
+   * 
+   * @param pageable page number and page size for the list of community admins, allowing
+   * the method to return a paginated response.
+   * 
+   * @returns a `ResponseEntity` object containing a list of community admins in a JSON
+   * format.
+   */
   @Override
   public ResponseEntity<ListCommunityAdminsResponse> listCommunityAdmins(
       @PathVariable String communityId,
@@ -115,6 +158,18 @@ public class CommunityController implements CommunitiesApi {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
+  /**
+   * list all houses of a given community by invoking the `findCommunityHousesById`
+   * method of the `communityService` class and mapping the result to a `GetHouseDetailsResponse`.
+   * 
+   * @param communityId unique identifier of the community for which the user is
+   * requesting to list all houses.
+   * 
+   * @param pageable default page request parameters for the list of houses, including
+   * the page number, size, and sort order.
+   * 
+   * @returns a `ResponseEntity` object containing a list of houses in the specified community.
+   */
   @Override
   public ResponseEntity<GetHouseDetailsResponse> listCommunityHouses(
       @PathVariable String communityId,
@@ -129,6 +184,18 @@ public class CommunityController implements CommunitiesApi {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
+  /**
+   * adds admins to a community by calling the `addAdminsToCommunity` method and returning
+   * the updated community information as an `AddCommunityAdminResponse`.
+   * 
+   * @param communityId ID of the community to which admins will be added.
+   * 
+   * @param request AddCommunityAdminRequest object that contains the information of
+   * the admins to be added to the community.
+   * 
+   * @returns a `ResponseEntity` object with a status code of `CREATED` and a body
+   * containing an `AddCommunityAdminResponse` object with the added admins.
+   */
   @Override
   public ResponseEntity<AddCommunityAdminResponse> addCommunityAdmins(
       @PathVariable String communityId, @Valid @RequestBody
@@ -146,6 +213,18 @@ public class CommunityController implements CommunitiesApi {
     }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
+  /**
+   * receives a request to add one or more houses to a community, maps the house names
+   * to community houses, adds the houses to the community, and returns the updated
+   * list of houses.
+   * 
+   * @param communityId identifier of the community to which the houses will be added.
+   * 
+   * @param request AddCommunityHouseRequest object containing the house names to be
+   * added to the specified community.
+   * 
+   * @returns an `AddCommunityHouseResponse` object containing the IDs of the added houses.
+   */
   @Override
   public ResponseEntity<AddCommunityHouseResponse> addCommunityHouses(
       @PathVariable String communityId, @Valid @RequestBody
@@ -164,6 +243,17 @@ public class CommunityController implements CommunitiesApi {
     }
   }
 
+  /**
+   * removes a house from a community by id.
+   * 
+   * @param communityId identifier of the community to which the house belongs, and is
+   * used to retrieve the details of that community from the service and remove the
+   * house from it.
+   * 
+   * @param houseId ID of the house to be removed from the specified community.
+   * 
+   * @returns a `ResponseEntity<Void>` object with a status code of `noContent`.
+   */
   @Override
   public ResponseEntity<Void> removeCommunityHouse(
       @PathVariable String communityId, @PathVariable String houseId
@@ -180,6 +270,19 @@ public class CommunityController implements CommunitiesApi {
         .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
+  /**
+   * removes an admin from a community based on the provided community ID and admin ID.
+   * If successful, it returns a `ResponseEntity` with a status code of `NO_CONTENT`.
+   * If unsuccessful, it returns a `ResponseEntity` with a status code of `NOT_FOUND`.
+   * 
+   * @param communityId ID of the community to which the admin belongs, which is used
+   * by the `communityService` to locate the appropriate admin record for removal.
+   * 
+   * @param adminId ID of the admin to be removed from the community.
+   * 
+   * @returns a `ResponseEntity` with a status code of either `NO_CONTENT` or `NOT_FOUND`,
+   * depending on whether the admin was successfully removed from the community.
+   */
   @Override
   public ResponseEntity<Void> removeAdminFromCommunity(
       @PathVariable String communityId, @PathVariable String adminId) {
@@ -194,6 +297,15 @@ public class CommunityController implements CommunitiesApi {
     }
   }
 
+  /**
+   * deletes a community with the given ID, returning a HTTP response entity indicating
+   * whether the delete was successful or not.
+   * 
+   * @param communityId identifier of the community to be deleted.
+   * 
+   * @returns a `ResponseEntity` object with a status code indicating whether the
+   * community was successfully deleted or not.
+   */
   @Override
   public ResponseEntity<Void> deleteCommunity(@PathVariable String communityId) {
     log.trace("Received delete community request");

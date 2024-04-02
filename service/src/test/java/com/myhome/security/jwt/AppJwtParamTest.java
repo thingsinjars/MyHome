@@ -21,6 +21,10 @@ import org.junit.jupiter.api.Test;
 
 class AppJwtParamTest {
 
+  /**
+   * builds an instance of the `AppJwt` class using a `builder` method, allowing for
+   * customization of the JWT parameters such as user ID and expiration time.
+   */
   @Test
   void testParamCreationBuilder() {
     AppJwt param = AppJwt.builder().userId("test-user-id").expiration(LocalDateTime.now()).build();

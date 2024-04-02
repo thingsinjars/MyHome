@@ -29,6 +29,12 @@ public class FileUploadConfig {
   @Value("${files.maxSizeKBytes}")
   private int maxSizeKBytes;
 
+  /**
+   * creates a `MultipartConfig` instance with customized maximum file and request
+   * sizes, allowing for efficient handling of multipart requests in a Spring Boot application.
+   * 
+   * @returns a `MultipartConfig` instance configured with maximum file and request sizes.
+   */
   @Bean
   public MultipartConfigElement multipartConfigElement() {
     MultipartConfigFactory factory = new MultipartConfigFactory();

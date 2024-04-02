@@ -16,6 +16,17 @@ public class BookingController implements BookingsApi {
 
   private final BookingService bookingSDJpaService;
 
+  /**
+   * deletes a booking based on its amenity ID and ID, returning a response entity
+   * indicating whether the operation was successful or not.
+   * 
+   * @param amenityId identifier of the amenity associated with the booking to be deleted.
+   * 
+   * @param bookingId ID of the booking to be deleted.
+   * 
+   * @returns a `ResponseEntity` with a status code of either `NO_CONTENT` or `NOT_FOUND`,
+   * depending on whether the booking was successfully deleted.
+   */
   @Override
   public ResponseEntity<Void> deleteBooking(@PathVariable String amenityId,
       @PathVariable String bookingId) {

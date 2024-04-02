@@ -28,11 +28,21 @@ public class AuthenticationControllerTest {
   @InjectMocks
   private AuthenticationController authenticationController;
 
+  /**
+   * initializes mock objects using MockitoAnnotations.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * tests the login functionality of the `AuthenticationController`. It provides a
+   * default `LoginRequest`, `AuthenticationData`, and `HttpHeaders`, and asserts that
+   * the `ResponseEntity` status code is `OK`, the header size is 2, and the headers
+   * match the expected values. Additionally, it verifies that the `authenticationService.login()`
+   * method was called with the provided `LoginRequest`.
+   */
   @Test
   void loginSuccess() {
     // given
@@ -54,10 +64,22 @@ public class AuthenticationControllerTest {
     verify(authenticationService).login(loginRequest);
   }
 
+  /**
+   * creates a default login request with an email address of TEST_EMAIL and a password
+   * of TEST_PASSWORD.
+   * 
+   * @returns a `LoginRequest` object containing the email address "TEST_EMAIL" and
+   * password "TEST_PASSWORD".
+   */
   private LoginRequest getDefaultLoginRequest() {
     return new LoginRequest().email(TEST_EMAIL).password(TEST_PASSWORD);
   }
 
+  /**
+   * creates a new `AuthenticationData` instance with token `TOKEN` and test ID `TEST_ID`.
+   * 
+   * @returns an `AuthenticationData` object containing the token and test ID.
+   */
   private AuthenticationData getDefaultAuthenticationData() {
     return new AuthenticationData(TOKEN, TEST_ID);
   }

@@ -41,6 +41,11 @@ class UserControllerIntegrationTest {
   @Autowired
   private UserRepository userRepository;
 
+  /**
+   * tests the successful sign-up of a new user through a REST API endpoint, verifying
+   * the returned user object matches the input parameters and the corresponding values
+   * in the database are also correct.
+   */
   @Test
   void shouldSignUpSuccessful() {
     // Given a request

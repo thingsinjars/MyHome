@@ -43,6 +43,17 @@ public class AmenityController implements AmenitiesApi {
   private final AmenityService amenitySDJpaService;
   private final AmenityApiMapper amenityApiMapper;
 
+  /**
+   * retrieves amenity details for a given ID from a Java Persistence API (JPA) service
+   * and maps the result to an `AmenityDetailsResponse` object using a mapper. It returns
+   * a `ResponseEntity` object with a status code of `OK` or an error message if the
+   * amenity is not found.
+   * 
+   * @param amenityId ID of the amenity to retrieve details for.
+   * 
+   * @returns an `ResponseEntity` object representing a successful response with the
+   * details of the requested amenity.
+   */
   @Override
   public ResponseEntity<GetAmenityDetailsResponse> getAmenityDetails(
       @PathVariable String amenityId) {
@@ -52,6 +63,16 @@ public class AmenityController implements AmenitiesApi {
         .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
+  /**
+   * retrieves a set of amenities from the database using the `amenitySDJpaService`,
+   * and maps them to a set of `GetAmenityDetailsResponse` objects using the
+   * `amenityApiMapper`. It then returns a response entity with the mapped `Set<GetAmenityDetailsResponse>`.
+   * 
+   * @param communityId ID of the community for which the user wants to list all amenities.
+   * 
+   * @returns a set of `GetAmenityDetailsResponse` objects containing information about
+   * the listed amenities.
+   */
   @Override
   public ResponseEntity<Set<GetAmenityDetailsResponse>> listAllAmenities(
       @PathVariable String communityId) {
@@ -61,6 +82,19 @@ public class AmenityController implements AmenitiesApi {
     return ResponseEntity.ok(response);
   }
 
+  /**
+   * creates amenities for a given community by calling the `createAmenities` method
+   * of the `amenitySDJpaService`, maps the result to an `AddAmenityResponse`, and
+   * returns it as an `ok` ResponseEntity or an error ResponseEntity if any.
+   * 
+   * @param communityId ID of the community to which the amenities will be added.
+   * 
+   * @param request AddAmenityRequest object containing the amenities to be added to
+   * the community, which is used by the method to create the new amenities in the database.
+   * 
+   * @returns a `ResponseEntity` object of type `AddAmenityResponse`, containing the
+   * list of newly created amenities.
+   */
   @Override
   public ResponseEntity<AddAmenityResponse> addAmenityToCommunity(
       @PathVariable String communityId,
@@ -71,6 +105,15 @@ public class AmenityController implements AmenitiesApi {
         .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * deletes an amenity based on its ID, returning a HTTP status code indicating the
+   * result of the operation.
+   * 
+   * @param amenityId identity of an amenity that is to be deleted.
+   * 
+   * @returns a `ResponseEntity` object with a status code of either `NO_CONTENT` or
+   * `NOT_FOUND`, depending on whether the amenity was successfully deleted or not.
+   */
   @Override
   public ResponseEntity deleteAmenity(@PathVariable String amenityId) {
     boolean isAmenityDeleted = amenitySDJpaService.deleteAmenity(amenityId);
@@ -81,6 +124,19 @@ public class AmenityController implements AmenitiesApi {
     }
   }
 
+  /**
+   * updates an amenity using the provided ID and update request, returning a HTTP
+   * NO_CONTENT status code if successful or NOT_FOUND otherwise.
+   * 
+   * @param amenityId unique identifier of the amenity being updated.
+   * 
+   * @param request UpdateAmenityRequest object containing the details of the amenity
+   * to be updated, which is used by the `amenityApiMapper` to map the request to an
+   * AmenityDto object before updating the amenity in the database.
+   * 
+   * @returns a response entity with a status code of either NO_CONTENT or NOT_FOUND,
+   * indicating whether the update was successful or not.
+   */
   @Override
   public ResponseEntity<Void> updateAmenity(@PathVariable String amenityId,
       @Valid @RequestBody UpdateAmenityRequest request) {

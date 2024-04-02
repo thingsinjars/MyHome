@@ -57,6 +57,17 @@ public class UserController implements UsersApi {
   private final HouseService houseService;
   private final HouseMemberMapper houseMemberMapper;
 
+  /**
+   * receives a `CreateUserRequest`, creates a `UserDto` using the provided data, and
+   * then creates a new `User` object using the `UserDto`. If successful, it returns a
+   * `ResponseEntity` with the created user's details in the response body.
+   * 
+   * @param request `CreateUserRequest` object passed from the client to the server for
+   * creating a new user account.
+   * 
+   * @returns a `ResponseEntity` with a status code of either `CREATED` or `CONFLICT`,
+   * depending on whether the user was created successfully or not.
+   */
   @Override
   public ResponseEntity<CreateUserResponse> signUp(@Valid CreateUserRequest request) {
     log.trace("Received SignUp request");
@@ -70,6 +81,17 @@ public class UserController implements UsersApi {
         .orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());
   }
 
+  /**
+   * receives a pageable request from the client, retrieves all users from the database
+   * through userService, maps them to GetUserDetailsResponseUserSet using userApiMapper,
+   * and returns a ResponseEntity with OK status code and the list of users in the
+   * response body.
+   * 
+   * @param pageable pagination information for the list of users, allowing the method
+   * to fetch a subset of the users based on page size and current page number.
+   * 
+   * @returns a list of user details in REST API format.
+   */
   @Override
   public ResponseEntity<GetUserDetailsResponse> listAllUsers(Pageable pageable) {
     log.trace("Received request to list all users");
@@ -84,6 +106,15 @@ public class UserController implements UsersApi {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
+  /**
+   * retrieves user details based on their ID and maps them to a `GetUserDetailsResponse`
+   * object before returning it as an HTTP response entity.
+   * 
+   * @param userId ID of the user for whom details are to be retrieved.
+   * 
+   * @returns a `ResponseEntity` object containing the details of the user with the
+   * provided `userId`.
+   */
   @Override
   public ResponseEntity<GetUserDetailsResponseUser> getUserDetails(String userId) {
     log.trace("Received request to get details of user with Id[{}]", userId);
@@ -94,6 +125,20 @@ public class UserController implements UsersApi {
         .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
+  /**
+   * takes a request body containing a `ForgotPasswordRequest` object and a `String`
+   * action parameter, and performs actions related to resetting or requesting a password
+   * reset based on the parsed action type. If successful, it returns an `ResponseEntity`
+   * with an `OK` status code; otherwise, it returns an error response.
+   * 
+   * @param action type of password-related action to be performed, and it is used to
+   * determine the appropriate response based on the value of the `parsedAction` variable.
+   * 
+   * @param forgotPasswordRequest Forgot Password Request object containing the user's
+   * email address and other details required to initiate the password reset process.
+   * 
+   * @returns a `ResponseEntity` object containing an `OK` status and no error message.
+   */
   @Override
   public ResponseEntity<Void> usersPasswordPost(@NotNull @Valid String action, @Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
     boolean result = false;
@@ -111,6 +156,20 @@ public class UserController implements UsersApi {
     }
   }
 
+  /**
+   * receives a request to list all members of all houses of a user with a given `userId`.
+   * It uses the `houseService` to retrieve a list of house members for each house owned
+   * by the user, maps them to a `HashSet`, and then maps each set to a `ListHouseMembersResponse`
+   * object. The function returns a `ResponseEntity` with the list of house members.
+   * 
+   * @param userId ID of the user for whom all houses' members are to be listed.
+   * 
+   * @param pageable request to list all members of all houses of a user, with the
+   * ability to page through the results using standard pagination mechanisms.
+   * 
+   * @returns a `ResponseEntity` object containing a list of `HouseMemberSet` objects
+   * in a REST API format.
+   */
   @Override
   public ResponseEntity<ListHouseMembersResponse> listAllHousemates(String userId, Pageable pageable) {
     log.trace("Received request to list all members of all houses of user with Id[{}]", userId);
@@ -123,6 +182,18 @@ public class UserController implements UsersApi {
             .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * confirms an email address for a user by checking with the user service. If the
+   * email is confirmed, it returns an ok response entity; otherwise, it returns a bad
+   * request response entity.
+   * 
+   * @param userId identifier of the user whose email is being confirmed.
+   * 
+   * @param emailConfirmToken token sent to the user's email address for email confirmation.
+   * 
+   * @returns a `ResponseEntity` object with a status of either `ok` or `badRequest`,
+   * depending on whether the email confirmation was successful or not.
+   */
   @Override
   public ResponseEntity<Void> confirmEmail(String userId, String emailConfirmToken) {
     boolean emailConfirmed = userService.confirmEmail(userId, emailConfirmToken);
@@ -133,6 +204,16 @@ public class UserController implements UsersApi {
     }
   }
 
+  /**
+   * resends an email confirmation to a user's registered email address if the email
+   * confirmation was previously sent and failed, returning a success or failure response
+   * accordingly.
+   * 
+   * @param userId 12-digit unique identifier of the user for whom the email confirmation
+   * status needs to be checked and resent if necessary.
+   * 
+   * @returns a `ResponseEntity` object with an `OK` status code and a successful message.
+   */
   @Override
   public ResponseEntity<Void> resendConfirmEmailMail(String userId) {
     boolean emailConfirmResend = userService.resendEmailConfirm(userId);

@@ -41,6 +41,17 @@ public class AmenitySDJpaService implements AmenityService {
   private final CommunityService communityService;
   private final AmenityApiMapper amenityApiMapper;
 
+  /**
+   * takes a set of amenities and a community ID, maps them to `Amenity` objects, saves
+   * them to the database, and returns a list of the created amenities as `AmenityDto`.
+   * 
+   * @param amenities set of `AmenityDto` objects to be created or updated in the database.
+   * 
+   * @param communityId community ID for which the amenities are being created, and is
+   * used to retrieve the details of the community from the service.
+   * 
+   * @returns a list of `AmenityDto` objects representing the newly created amenities.
+   */
   @Override
   public Optional<List<AmenityDto>> createAmenities(Set<AmenityDto> amenities, String communityId) {
     final Optional<Community> community = communityService.getCommunityDetailsById(communityId);
@@ -61,11 +72,27 @@ public class AmenitySDJpaService implements AmenityService {
     return Optional.of(createdAmenities);
   }
 
+  /**
+   * retrieves the details of an amenity based on its ID.
+   * 
+   * @param amenityId identifier of the amenity to retrieve details for.
+   * 
+   * @returns an Optional object containing the details of the specified amenity if
+   * found, otherwise empty.
+   */
   @Override
   public Optional<Amenity> getAmenityDetails(String amenityId) {
     return amenityRepository.findByAmenityId(amenityId);
   }
 
+  /**
+   * deletes an amenity from the database by finding it using its ID, removing it from
+   * the community's amenities list, and deleting it from the repository.
+   * 
+   * @param amenityId ID of an amenity that needs to be deleted.
+   * 
+   * @returns a boolean value indicating whether the amenity was successfully deleted.
+   */
   @Override
   public boolean deleteAmenity(String amenityId) {
     return amenityRepository.findByAmenityIdWithCommunity(amenityId)
@@ -78,6 +105,16 @@ public class AmenitySDJpaService implements AmenityService {
         .orElse(false);
   }
 
+  /**
+   * retrieves a set of amenities associated with a community by using the
+   * `communityRepository.findByCommunityIdWithAmenities()` method and maps the community's
+   * amenities to a set using the `map()` method. If no amenities are found, it returns
+   * an empty set.
+   * 
+   * @param communityId identifier of the community whose amenities should be listed.
+   * 
+   * @returns a set of amenities associated with a given community.
+   */
   @Override
   public Set<Amenity> listAllAmenities(String communityId) {
     return communityRepository.findByCommunityIdWithAmenities(communityId)
@@ -85,6 +122,16 @@ public class AmenitySDJpaService implements AmenityService {
         .orElse(new HashSet<>());
   }
 
+  /**
+   * updates an amenity in the database by retrieving the existing amenity with the
+   * matching ID, updating its name, price, and other properties, and then saving the
+   * updated amenity to the database.
+   * 
+   * @param updatedAmenity updated amenity data to be saved in the repository, including
+   * its name, price, id, amenity id, and description.
+   * 
+   * @returns a boolean value indicating whether the amenity was updated successfully.
+   */
   @Override
   public boolean updateAmenity(AmenityDto updatedAmenity) {
     String amenityId = updatedAmenity.getAmenityId();

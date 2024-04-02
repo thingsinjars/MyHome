@@ -36,6 +36,15 @@ public class AppUserDetailsService implements UserDetailsService {
   private final UserRepository userRepository;
   private final UserMapper userMapper;
 
+  /**
+   * loads a user from the database based on their username. If no user is found, it
+   * throws a `UsernameNotFoundException`.
+   * 
+   * @param username username to be loaded from the user repository.
+   * 
+   * @returns a `UserDetails` object containing the user's email address, encrypted
+   * password, and various flags indicating their roles and permissions.
+   */
   @Override public UserDetails loadUserByUsername(String username)
       throws UsernameNotFoundException {
 
@@ -53,6 +62,15 @@ public class AppUserDetailsService implements UserDetailsService {
         Collections.emptyList());
   }
 
+  /**
+   * retrieves a `User` entity from the repository based on the provided username, maps
+   * it to a `UserDto`, and returns the mapped result.
+   * 
+   * @param username username of the user for which details are to be retrieved.
+   * 
+   * @returns a `UserDto` object containing the details of the user with the provided
+   * username.
+   */
   public UserDto getUserDetailsByUsername(String username) {
     com.myhome.domain.User user = userRepository.findByEmail(username);
     if (user == null) {

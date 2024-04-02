@@ -43,6 +43,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   private final PasswordEncoder passwordEncoder;
   private final AppJwtEncoderDecoder appJwtEncoderDecoder;
 
+  /**
+   * sets up security features for an API, including disabling CSRF and frame options,
+   * using a stateful session management policy, and authorizing requests based on ant
+   * patterns to permit all methods for certain URLs.
+   * 
+   * @param http HTTP security configuration object, which is used to configure various
+   * security features such as CORS, CSFR, session management, and authorization rules.
+   */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable();
@@ -77,10 +85,25 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .addFilterAfter(getCommunityFilter(), MyHomeAuthorizationFilter.class);
   }
 
+  /**
+   * creates an instance of `CommunityAuthorizationFilter`, which combines authentication
+   * and community service logic to filter access to community resources based on user
+   * permissions.
+   * 
+   * @returns a `Filter` object implementing community authorization checks.
+   */
   private Filter getCommunityFilter() throws Exception {
     return new CommunityAuthorizationFilter(authenticationManager(), communityService);
   }
 
+  /**
+   * sets up authentication settings for a application by specifying a user details
+   * service and password encoder.
+   * 
+   * @param auth AuthenticationManagerBuilder instance that is being configured, and
+   * it provides a way to specify the user details service and password encoder for the
+   * authentication manager.
+   */
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);

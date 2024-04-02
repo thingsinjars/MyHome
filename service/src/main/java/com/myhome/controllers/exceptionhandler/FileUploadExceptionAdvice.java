@@ -27,6 +27,15 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 @ControllerAdvice
 public class FileUploadExceptionAdvice {
 
+  /**
+   * processes an exception caused by a file being too large for upload, returning a
+   * customized response entity with a descriptive message.
+   * 
+   * @param exc MaxUploadSizeExceededException object that was thrown by the application.
+   * 
+   * @returns a `ResponseEntity` with a status code of `PAYLOAD_TOO_LARGE` and a body
+   * containing a message indicating that the file size exceeds the limit.
+   */
   @ExceptionHandler(MaxUploadSizeExceededException.class)
   public ResponseEntity handleMaxSizeException(MaxUploadSizeExceededException exc) {
     return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(new HashMap<String, String>() {{
@@ -34,6 +43,17 @@ public class FileUploadExceptionAdvice {
     }});
   }
 
+  /**
+   * handles exceptions related to document saving by returning a response entity with
+   * an HTTP status code of CONFLICT and a message indicating something went wrong
+   * during document saving.
+   * 
+   * @param exc `MaxUploadSizeExceededException` that is thrown when the document being
+   * uploaded exceeds the maximum allowed size.
+   * 
+   * @returns a `ResponseEntity` object with a status code of `CONFLICT` and a body
+   * containing a message indicating that something went wrong during document saving.
+   */
   @ExceptionHandler(IOException.class)
   public ResponseEntity handleIOException(MaxUploadSizeExceededException exc) {
     return ResponseEntity.status(HttpStatus.CONFLICT).body(new HashMap<String, String>() {{

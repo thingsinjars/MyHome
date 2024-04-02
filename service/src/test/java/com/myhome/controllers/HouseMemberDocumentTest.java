@@ -48,11 +48,19 @@ class HouseMemberDocumentTest {
   @InjectMocks
   private HouseMemberDocumentController houseMemberDocumentController;
 
+  /**
+   * is used to initialize mock objects with MockitoAnnotations. This allows for easier
+   * testing of code by creating fake implementations of classes and methods.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * tests whether the `getHouseMemberDocument` method returns a successful response
+   * with the correct document content and content type.
+   */
   @Test
   void shouldGetDocumentSuccess() {
     // given
@@ -68,6 +76,10 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).findHouseMemberDocument(MEMBER_ID);
   }
 
+  /**
+   * tests that the `getHouseMemberDocument` method returns a `HttpStatus.NOT_FOUND`
+   * response when the house member document is not found in the database.
+   */
   @Test
   void shouldGetDocumentFailure() {
     // given
@@ -81,6 +93,11 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).findHouseMemberDocument(MEMBER_ID);
   }
 
+  /**
+   * verifies that the `uploadHouseMemberDocument` method returns a successful response
+   * with no content, and also invokes the underlying `createHouseMemberDocument` method
+   * to create a new document.
+   */
   @Test
   void shouldPostDocumentSuccess() {
     // given
@@ -94,6 +111,10 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).createHouseMemberDocument(MULTIPART_FILE, MEMBER_ID);
   }
 
+  /**
+   * tests whether an error response is returned when the house member document creation
+   * service fails to create a document for a given member ID.
+   */
   @Test
   void shouldPostDocumentFailureNotFound() {
     // given
@@ -107,6 +128,10 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).createHouseMemberDocument(MULTIPART_FILE, MEMBER_ID);
   }
 
+  /**
+   * verifies that updating a house member's document using the `houseMemberDocumentController`
+   * results in a successful response with a status code of `HttpStatus.NO_CONTENT`.
+   */
   @Test
   void shouldPutDocumentSuccess() {
     // given
@@ -120,6 +145,11 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).updateHouseMemberDocument(MULTIPART_FILE, MEMBER_ID);
   }
 
+  /**
+   * tests that when the update house member document method fails to find a matching
+   * member ID, it returns a HTTP 404 status code and verifies that the `updateHouseMemberDocument`
+   * method was called with the correct parameters.
+   */
   @Test
   void shouldPutDocumentFailureNotFound() {
     // given
@@ -133,6 +163,10 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).updateHouseMemberDocument(MULTIPART_FILE, MEMBER_ID);
   }
 
+  /**
+   * verifies that the deleteHouseMemberDocument method returns true and also invokes
+   * the corresponding service method to delete the house member document.
+   */
   @Test
   void shouldDeleteDocumentSuccess() {
     // given
@@ -146,6 +180,10 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).deleteHouseMemberDocument(MEMBER_ID);
   }
 
+  /**
+   * tests whether the deleteHouseMemberDocument method returns a 404 status code when
+   * the document to be deleted does not exist.
+   */
   @Test
   void shouldDeleteDocumentFailureNotFound() {
     // given

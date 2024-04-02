@@ -44,6 +44,10 @@ public class AuthenticationSDJpaServiceTest {
       new AuthenticationSDJpaService(TOKEN_LIFETIME, SECRET, userSDJpaService, appJwtEncoderDecoder,
           passwordEncoder);
 
+  /**
+   * tests the login feature by verifying that a valid user can be authenticated and
+   * obtain an JWT token.
+   */
   @Test
   void loginSuccess() {
     // given
@@ -70,6 +74,11 @@ public class AuthenticationSDJpaServiceTest {
     verify(appJwtEncoderDecoder).encode(appJwt, SECRET);
   }
 
+  /**
+   * tests the login functionality when no user is found with the provided email address.
+   * It throws a `UserNotFoundException` when no user is returned from the `findUserByEmail`
+   * method.
+   */
   @Test
   void loginUserNotFound() {
     // given
@@ -82,6 +91,10 @@ public class AuthenticationSDJpaServiceTest {
         () -> authenticationSDJpaService.login(request));
   }
 
+  /**
+   * tests the scenario where the user's login credentials do not match, causing an
+   * `CredentialsIncorrectException` to be thrown when attempting to log in.
+   */
   @Test
   void loginCredentialsAreIncorrect() {
     // given
@@ -97,10 +110,22 @@ public class AuthenticationSDJpaServiceTest {
         () -> authenticationSDJpaService.login(request));
   }
 
+  /**
+   * creates a default login request with provided email and password.
+   * 
+   * @returns a `LoginRequest` object containing the email address and password for the
+   * default login.
+   */
   private LoginRequest getDefaultLoginRequest() {
     return new LoginRequest().email(USER_EMAIL).password(REQUEST_PASSWORD);
   }
 
+  /**
+   * creates a default `UserDto` instance with specified user ID, name, email, encrypted
+   * password, and community IDs.
+   * 
+   * @returns a `UserDto` object filled with default values for a user.
+   */
   private UserDto getDefaultUserDtoRequest() {
     return UserDto.builder()
         .userId(USER_ID)
@@ -111,6 +136,14 @@ public class AuthenticationSDJpaServiceTest {
         .build();
   }
 
+  /**
+   * generates a JWT token for an user based on the current date and time, and stores
+   * the user ID and expiration time in the token.
+   * 
+   * @param userDto user details for generating the JWT token.
+   * 
+   * @returns a newly generated AppJwt token with a user ID and an expiration time.
+   */
   private AppJwt getDefaultJwtToken(UserDto userDto) {
     final LocalDateTime expirationTime = LocalDateTime.now().plus(TOKEN_LIFETIME);
     return AppJwt.builder()

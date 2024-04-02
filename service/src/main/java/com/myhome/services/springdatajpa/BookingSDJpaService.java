@@ -14,6 +14,16 @@ public class BookingSDJpaService implements BookingService {
 
   private final AmenityBookingItemRepository bookingRepository;
 
+  /**
+   * searches for a booking item in the repository using the `bookingId`. If it finds
+   * one, it deletes the booking item and returns `true`. Otherwise, it returns `false`.
+   * 
+   * @param amenityId ID of an amenity for which the booking is to be deleted.
+   * 
+   * @param bookingId ID of the booking to be deleted.
+   * 
+   * @returns a boolean value indicating whether the booking item was successfully deleted.
+   */
   @Transactional
   @Override
   public boolean deleteBooking(String amenityId, String bookingId) {

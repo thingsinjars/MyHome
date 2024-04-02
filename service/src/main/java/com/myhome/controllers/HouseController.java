@@ -48,6 +48,16 @@ public class HouseController implements HousesApi {
   private final HouseService houseService;
   private final HouseApiMapper houseApiMapper;
 
+  /**
+   * receives a pageable request, lists all houses from the service, and returns them
+   * in a REST API response.
+   * 
+   * @param pageable page request parameters, such as the page number, size, and sort
+   * order, which are used to filter and retrieve a subset of the houses from the database.
+   * 
+   * @returns a `GetHouseDetailsResponse` object containing a set of `CommunityHouse`
+   * objects converted from the service's response.
+   */
   @Override
   public ResponseEntity<GetHouseDetailsResponse> listAllHouses(
       @PageableDefault(size = 200) Pageable pageable) {
@@ -65,6 +75,15 @@ public class HouseController implements HousesApi {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
+  /**
+   * retrieves house details for a given ID, maps them to a REST API response, and
+   * returns it as an `ResponseEntity`.
+   * 
+   * @param houseId unique identifier of the house for which the user is requesting details.
+   * 
+   * @returns a `ResponseEntity` object representing the result of the API call, which
+   * contains a list of houses with their details.
+   */
   @Override
   public ResponseEntity<GetHouseDetailsResponse> getHouseDetails(String houseId) {
     log.trace("Received request to get details of a house with id[{}]", houseId);
@@ -76,6 +95,18 @@ public class HouseController implements HousesApi {
         .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * retrieves the members of a house given its ID and pagination information, maps
+   * them to a `RestApiResponse`, and returns a `ResponseEntity` with the list of members.
+   * 
+   * @param houseId identifier of the house for which the members are to be listed.
+   * 
+   * @param pageable pagination configuration for the list of members, allowing for
+   * efficient retrieval of a specific page of members with a given number of elements.
+   * 
+   * @returns a `ListHouseMembersResponse` object containing the list of members of the
+   * specified house.
+   */
   @Override
   public ResponseEntity<ListHouseMembersResponse> listAllMembersOfHouse(
       String houseId,
@@ -90,6 +121,20 @@ public class HouseController implements HousesApi {
         .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * receives a request to add members to a house, maps the request to a Set of
+   * HouseMembers, adds the members to the house using the `addHouseMembers` method of
+   * the `houseService`, and returns the updated membership set in the response.
+   * 
+   * @param houseId identifier of the house to which the members will be added.
+   * 
+   * @param request AddHouseMemberRequest object containing the member details to be
+   * added to the house, which is passed through to the service layer for processing
+   * and storage in the database.
+   * 
+   * @returns a `ResponseEntity` object with a `HTTP Status Code` of either `CREATED`
+   * or `NOT_FOUND`, depending on whether the members were successfully added or not.
+   */
   @Override
   public ResponseEntity<AddHouseMemberResponse> addHouseMembers(
       @PathVariable String houseId, @Valid AddHouseMemberRequest request) {
@@ -109,6 +154,19 @@ public class HouseController implements HousesApi {
     }
   }
 
+  /**
+   * deletes a member from a house based on the provided house ID and member ID. If the
+   * member is successfully deleted, a `NO_CONTENT` status code is returned. Otherwise,
+   * a `NOT_FOUND` status code is returned.
+   * 
+   * @param houseId identifier of the house to which the member belongs, which is used
+   * as the basis for deleting the member from that house.
+   * 
+   * @param memberId ID of the member to be deleted from the specified house.
+   * 
+   * @returns a `ResponseEntity` with a status code of either `NO_CONTENT` or `NOT_FOUND`,
+   * depending on whether the member was successfully deleted.
+   */
   @Override
   public ResponseEntity<Void> deleteHouseMember(String houseId, String memberId) {
     log.trace("Received request to delete a member from house with house id[{}] and member id[{}]",

@@ -28,9 +28,23 @@ public class CorsConfig {
   @Value("${server.cors.allowedOrigins}")
   private String[] allowedOrigins;
 
+  /**
+   * configure CORS settings for a web application by adding mapping to allow cross-origin
+   * resource sharing.
+   * 
+   * @returns a WebMvcConfigurer object that adds CORS mapping for all URLs and allows
+   * origins, methods, headers, and credentials.
+   */
   @Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
+      /**
+       * adds CORS mappings to a registry, allowing cross-origin resource sharing by
+       * specifying allowed origins, methods, headers, and credentials.
+       * 
+       * @param registry Cors registry that can be modified to configure cross-origin
+       * resource sharing (CORS) settings for the given function.
+       */
       @Override
       public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

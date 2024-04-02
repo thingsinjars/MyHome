@@ -44,6 +44,20 @@ public class MyHomeAuthorizationFilter extends BasicAuthenticationFilter {
     this.appJwtEncoderDecoder = appJwtEncoderDecoder;
   }
 
+  /**
+   * verifies the HTTP request's authorization token and sets an authentication token
+   * based on the verified token. It then forwards the request to the next filter in
+   * the chain.
+   * 
+   * @param request HTTP request being processed and is passed to the next filter in
+   * the chain for further processing.
+   * 
+   * @param response HttpServletResponse object that is used to send the filtered
+   * response back to the client.
+   * 
+   * @param chain FilterChain object that contains the next filter in the filter chain
+   * to be executed after the current filter is applied to the request and response.
+   */
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain) throws IOException, ServletException {
@@ -61,6 +75,16 @@ public class MyHomeAuthorizationFilter extends BasicAuthenticationFilter {
     chain.doFilter(request, response);
   }
 
+  /**
+   * retrieves an authentication token from a request header and decodes it to produce
+   * an `UsernamePasswordAuthenticationToken`. If the token is invalid or missing, it
+   * returns `null`.
+   * 
+   * @param request HTTP request that contains the authentication token.
+   * 
+   * @returns a `UsernamePasswordAuthenticationToken` instance representing the
+   * authenticated user.
+   */
   private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
     String authHeader =
         request.getHeader(environment.getProperty("authorization.token.header.name"));

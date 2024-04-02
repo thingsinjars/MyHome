@@ -37,6 +37,10 @@ class SecretJwtEncoderDecoderTest {
       + "secretsecretsecretsecretsecretsecretsecretsecret"
       + "secretsecretsecretsecretsecretsecretsecretsecret";
 
+  /**
+   * tests whether a JWT encoder-decoder can successfully encode an AppJwt object using
+   * a valid secret key.
+   */
   @Test
   void jwtEncodeSuccess() {
     // given
@@ -49,6 +53,10 @@ class SecretJwtEncoderDecoderTest {
     Assertions.assertNotNull(jwtEncoderDecoder.encode(appJwt, VALID_SECRET));
   }
 
+  /**
+   * tests the behavior of the `SecretJwtEncoderDecoder` class when an invalid secret
+   * key is provided during encoding.
+   */
   @Test
   void jwtEncodeFailWithException() {
     // given
@@ -60,6 +68,9 @@ class SecretJwtEncoderDecoderTest {
         () -> jwtEncoderDecoder.encode(appJwt, INVALID_SECRET));
   }
 
+  /**
+   * tests the successful decoding of a JWT token using a provided encoder and secret.
+   */
   @Test
   void jwtDecodeSuccess() {
     // given
@@ -77,6 +88,10 @@ class SecretJwtEncoderDecoderTest {
     Assertions.assertNotNull(decodedJwt.getExpiration());
   }
 
+  /**
+   * tests whether an exception is thrown when an expired JWT is passed to the `decode()`
+   * method of a `SecretJwtEncoderDecoder` instance.
+   */
   @Test
   void jwtDecodeFailWithExpiredJwt() {
     // given

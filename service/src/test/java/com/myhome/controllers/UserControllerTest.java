@@ -77,11 +77,19 @@ class UserControllerTest {
   @InjectMocks
   private UserController userController;
 
+  /**
+   * initializes mock objects using MockitoAnnotations, ensuring that mock dependencies
+   * are available for further testing.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * tests the sign-up functionality of the `UserController`. Given a valid user creation
+   * request, it verifies that the user is created successfully and returns a `CreateUserResponse`.
+   */
   @Test
   void shouldSignUpSuccessful() {
     // given
@@ -117,6 +125,11 @@ class UserControllerTest {
     verify(userApiMapper).userDtoToCreateUserResponse(userDto);
   }
 
+  /**
+   * tests the `listAllUsers()` method of a user controller by providing a page request
+   * and verifying that the resulting response contains the expected users and status
+   * code.
+   */
   @Test
   void shouldListUsersSuccess() {
     // given
@@ -154,6 +167,10 @@ class UserControllerTest {
     verify(userApiMapper).userSetToRestApiResponseUserSet(users);
   }
 
+  /**
+   * tests the `getUserDetails` endpoint, given an empty user ID, and verifies the
+   * response status code and body.
+   */
   @Test
   void shouldGetUserDetailsSuccessWithNoResults() {
     // given
@@ -171,6 +188,11 @@ class UserControllerTest {
     verifyNoInteractions(userApiMapper);
   }
 
+  /**
+   * tests the `getUserDetails` endpoint of the `UserController`. It provides a user
+   * ID and expected response data, and verifies that the response status code is
+   * `HttpStatus.OK` and the response body matches the expected data.
+   */
   @Test
   void shouldGetUserDetailsSuccessWithResults() {
     // given
@@ -199,6 +221,10 @@ class UserControllerTest {
     verify(userApiMapper).userDtoToGetUserDetailsResponse(userDto);
   }
 
+  /**
+   * verifies that a successful request to reset a user's password results in a
+   * `HttpStatus.OK` response and the password being requested for reset by the user service.
+   */
   @Test
   void userForgotPasswordRequestResetSuccess() {
     // given
@@ -213,6 +239,11 @@ class UserControllerTest {
     verify(userService, never()).resetPassword(forgotPasswordRequest);
   }
 
+  /**
+   * tests the user controller's password reset functionality by providing a valid
+   * forgotten password request and verifying that it fails with an OK status code and
+   * the expected actions are performed on the user service.
+   */
   @Test
   void userForgotPasswordRequestResetFailure() {
     // given
@@ -227,6 +258,11 @@ class UserControllerTest {
     verify(userService, never()).resetPassword(forgotPasswordRequest);
   }
 
+  /**
+   * tests the password reset process for a user who has forgotten their password. It
+   * verifies that the password is successfully reset and that no unnecessary requests
+   * to reset the password are made to the user service.
+   */
   @Test
   void userForgotPasswordResetSuccess() {
     // given
@@ -242,6 +278,12 @@ class UserControllerTest {
     verify(userService).resetPassword(forgotPasswordRequest);
   }
 
+  /**
+   * tests the failure case of resetting a user's password through the `/users/password/reset`
+   * endpoint. It verifies that the response status code is `HttpStatus.BAD_REQUEST`
+   * and that the `userService.requestResetPassword` and `userService.resetPassword`
+   * methods are never called.
+   */
   @Test
   void userForgotPasswordResetFailure() {
     // given
@@ -257,6 +299,13 @@ class UserControllerTest {
     verify(userService).resetPassword(forgotPasswordRequest);
   }
 
+  /**
+   * creates a new `ForgotPasswordRequest` object with predefined email, new password
+   * and token values for testing purposes.
+   * 
+   * @returns a `ForgotPasswordRequest` object containing the email, new password, and
+   * token for password reset.
+   */
   private ForgotPasswordRequest getForgotPasswordRequest() {
     ForgotPasswordRequest request = new ForgotPasswordRequest();
     request.setEmail(TEST_EMAIL);
@@ -265,6 +314,12 @@ class UserControllerTest {
     return request;
   }
 
+  /**
+   * tests the `listAllHousemates` method of the `UserController` class. It provides a
+   * page request to list all house members for a given user ID and verifies that the
+   * response is NOT_FOUND status code and an empty list of house members in the body
+   * of the response.
+   */
   void shouldListAllHousematesSuccessWithNoResults() {
     // given
     String userId = TEST_ID;
@@ -288,6 +343,13 @@ class UserControllerTest {
     then(userApiMapper).shouldHaveNoInteractions();
   }
 
+  /**
+   * tests the `listAllHousemates` method of the `UserController` class, which calls
+   * the `listHouseMembersForHousesOfUserId` method of the `HouseService`. The function
+   * verifies that the response from the `listHouseMembersForHousesOfUserId` method is
+   * converted to a `ListHouseMembersResponse` object using the `houseMemberMapper`,
+   * and that the response status code is `OK`.
+   */
   @Test
   void shouldListAllHousematesSuccessWithResults() {
     // given

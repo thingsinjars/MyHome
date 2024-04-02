@@ -32,11 +32,17 @@ public class BookingSDJpaServiceTest {
   @InjectMocks
   private BookingSDJpaService bookingSDJpaService;
 
+  /**
+   * initializes mock objects using MockitoAnnotations.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * deletes a booking item from the repository given the amenity ID and booking ID.
+   */
   @Test
   void deleteBookingItem() {
     // given
@@ -56,6 +62,10 @@ public class BookingSDJpaServiceTest {
     verify(bookingItemRepository).delete(testBookingItem);
   }
 
+  /**
+   * tests whether deleting a booking that does not exist throws an exception. It also
+   * verifies the correctness of the `bookingItemRepository` calls made by the `bookingSDJpaService`.
+   */
   @Test
   void deleteBookingNotExists() {
     // given
@@ -71,6 +81,10 @@ public class BookingSDJpaServiceTest {
     verify(bookingItemRepository, never()).delete(any());
   }
 
+  /**
+   * verifies that a booking cannot be deleted if the amenity associated with it does
+   * not exist.
+   */
   @Test
   void deleteBookingAmenityNotExists() {
     // given
@@ -90,6 +104,11 @@ public class BookingSDJpaServiceTest {
     verify(bookingItemRepository, never()).delete(any());
   }
 
+  /**
+   * creates a new `AmenityBookingItem` object with a unique ID and returns it.
+   * 
+   * @returns a new instance of `AmenityBookingItem`.
+   */
   private AmenityBookingItem getTestBookingItem() {
     return new AmenityBookingItem()
         .withAmenityBookingItemId(TEST_BOOKING_ID);

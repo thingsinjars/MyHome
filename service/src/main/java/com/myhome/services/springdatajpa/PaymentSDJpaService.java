@@ -50,23 +50,55 @@ public class PaymentSDJpaService implements PaymentService {
   private final PaymentMapper paymentMapper;
   private final HouseMemberRepository houseMemberRepository;
 
+  /**
+   * generates a payment ID and creates a new payment record in the repository.
+   * 
+   * @param request payment details and is used to generate a unique payment ID and
+   * create a new payment record in the repository.
+   * 
+   * @returns a payment DTO containing the generated payment ID and created payment details.
+   */
   @Override
   public PaymentDto schedulePayment(PaymentDto request) {
     generatePaymentId(request);
     return createPaymentInRepository(request);
   }
 
+  /**
+   * retrieves a payment's details from the repository, maps it to a `PaymentDto` object
+   * using the `paymentMapper`, and returns the result as an optional object.
+   * 
+   * @param paymentId unique identifier of a payment and is used to retrieve the
+   * corresponding payment details from the repository.
+   * 
+   * @returns an Optional<PaymentDto> containing the payment details for the provided
+   * payment ID.
+   */
   @Override
   public Optional<PaymentDto> getPaymentDetails(String paymentId) {
     return paymentRepository.findByPaymentId(paymentId)
         .map(paymentMapper::paymentToPaymentDto);
   }
 
+  /**
+   * retrieves a specific `HouseMember` instance from the repository based on its `memberId`.
+   * 
+   * @param memberId identifier of the House Member to be retrieved.
+   * 
+   * @returns an optional instance of `HouseMember`.
+   */
   @Override
   public Optional<HouseMember> getHouseMember(String memberId) {
     return houseMemberRepository.findByMemberId(memberId);
   }
 
+  /**
+   * retrieves a set of payments associated with a given member ID from the payment repository.
+   * 
+   * @param memberId member ID of the payments to be retrieved.
+   * 
+   * @returns a set of payments belonging to the specified member.
+   */
   @Override
   public Set<Payment> getPaymentsByMember(String memberId) {
     ExampleMatcher ignoringMatcher = ExampleMatcher.matchingAll()
@@ -83,6 +115,17 @@ public class PaymentSDJpaService implements PaymentService {
     return new HashSet<>(paymentRepository.findAll(paymentExample));
   }
 
+  /**
+   * retrieves all payments for a given administrator (identified by their `adminId`)
+   * from the database using Pageable.
+   * 
+   * @param adminId ID of the admin for whom the payments are being retrieved.
+   * 
+   * @param pageable pagination information for the query, allowing the method to
+   * retrieve a specific page of results from the database.
+   * 
+   * @returns a paginated list of payments for the specified administrator.
+   */
   @Override
   public Page<Payment> getPaymentsByAdmin(String adminId, Pageable pageable) {
     ExampleMatcher ignoringMatcher = ExampleMatcher.matchingAll()
@@ -99,6 +142,15 @@ public class PaymentSDJpaService implements PaymentService {
     return paymentRepository.findAll(paymentExample, pageable);
   }
 
+  /**
+   * maps a `PaymentDto` object to a `Payment` object, saves the admin and payment
+   * entities in their respective repositories, and maps the created `Payment` back to
+   * a `PaymentDto`.
+   * 
+   * @param request PaymentDto object containing information about the payment to be created.
+   * 
+   * @returns a `PaymentDto` object representing the saved payment data.
+   */
   private PaymentDto createPaymentInRepository(PaymentDto request) {
     Payment payment = paymentMapper.paymentDtoToPayment(request);
 
@@ -108,6 +160,13 @@ public class PaymentSDJpaService implements PaymentService {
     return paymentMapper.paymentToPaymentDto(payment);
   }
 
+  /**
+   * generates a unique payment ID for a given `PaymentDto` request using `UUID.randomUUID()`.
+   * 
+   * @param request PaymentDto object that contains the necessary information for
+   * generating a payment ID, which is then set to a unique UUID string returned by the
+   * `UUID.randomUUID()` method.
+   */
   private void generatePaymentId(PaymentDto request) {
     request.setPaymentId(UUID.randomUUID().toString());
   }

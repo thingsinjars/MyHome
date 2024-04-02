@@ -54,6 +54,16 @@ public class UserSDJpaService implements UserService {
   private final SecurityTokenService securityTokenService;
   private final MailService mailService;
 
+  /**
+   * creates a new user in the system by generating a unique ID, encrypting the password,
+   * and sending an email confirmation token to the registered email address. It returns
+   * an Optional<UserDto> representing the created user.
+   * 
+   * @param request user data that is to be created in the system, including their email
+   * address and any additional details.
+   * 
+   * @returns an `Optional` containing a `UserDto` representing the newly created user.
+   */
   @Override
   public Optional<UserDto> createUser(UserDto request) {
     if (userRepository.findByEmail(request.getEmail()) == null) {
@@ -69,16 +79,39 @@ public class UserSDJpaService implements UserService {
     }
   }
 
+  /**
+   * retrieves a list of `User` objects from the database using a pagination-based query.
+   * 
+   * @returns a set of `User` objects representing all users in the system.
+   */
   @Override
   public Set<User> listAll() {
     return listAll(PageRequest.of(0, 200));
   }
 
+  /**
+   * in the code snippet returns a set of all users in the user repository by calling
+   * the `findAll` method and converting the resulting list to a set.
+   * 
+   * @param pageable paging information for the users, allowing the `listAll()` method
+   * to retrieve a subset of users based on the current page and page size.
+   * 
+   * @returns a set of `User` objects.
+   */
   @Override
   public Set<User> listAll(Pageable pageable) {
     return userRepository.findAll(pageable).toSet();
   }
 
+  /**
+   * retrieves a user's details and community membership from the database using the
+   * given user ID, maps them to a `UserDto` object, and returns an optional version
+   * of the resulting object.
+   * 
+   * @param userId unique identifier of the user for whom the user details are being requested.
+   * 
+   * @returns an optional `UserDto` object containing the user's community IDs and details.
+   */
   @Override
   public Optional<UserDto> getUserDetails(String userId) {
     Optional<User> userOptional = userRepository.findByUserIdWithCommunities(userId);
@@ -93,6 +126,14 @@ public class UserSDJpaService implements UserService {
     }).orElse(Optional.empty());
   }
 
+  /**
+   * retrieves a user from the repository based on their email address, maps them to a
+   * `UserDto` object, and returns the mapped object with the user's community IDs added.
+   * 
+   * @param userEmail email address of the user to search for in the database.
+   * 
+   * @returns a `Optional<UserDto>` object containing the user details and community IDs.
+   */
   public Optional<UserDto> findUserByEmail(String userEmail) {
     return Optional.ofNullable(userRepository.findByEmail(userEmail))
         .map(user -> {
@@ -106,6 +147,18 @@ public class UserSDJpaService implements UserService {
         });
   }
 
+  /**
+   * takes a `ForgotPasswordRequest` object as input and retrieves the user's email
+   * from it. It then uses the email to find the user in the repository, create a new
+   * security token for password reset, add the token to the user's tokens, and save
+   * the updated user in the repository. Finally, it sends an email with a password
+   * recovery code to the user.
+   * 
+   * @param forgotPasswordRequest user's email address for which a password reset link
+   * will be generated.
+   * 
+   * @returns a boolean value indicating whether the password reset process was successful.
+   */
   @Override
   public boolean requestResetPassword(ForgotPasswordRequest forgotPasswordRequest) {
     return Optional.ofNullable(forgotPasswordRequest)
@@ -120,6 +173,16 @@ public class UserSDJpaService implements UserService {
         .orElse(false);
   }
 
+  /**
+   * resets a user's password by validating the provided token, finding the corresponding
+   * user, and then saving a new token for that user. If successful, it sends a
+   * notification to the user's registered email address.
+   * 
+   * @param passwordResetRequest ForgotPasswordRequest object containing the email
+   * address and password reset token of a user who wants to reset their password.
+   * 
+   * @returns a boolean value indicating whether the password reset process was successful.
+   */
   @Override
   public boolean resetPassword(ForgotPasswordRequest passwordResetRequest) {
     final Optional<User> userWithToken = Optional.ofNullable(passwordResetRequest)
@@ -133,6 +196,19 @@ public class UserSDJpaService implements UserService {
         .orElse(false);
   }
 
+  /**
+   * 1) finds a user with an email confirmation token, 2) checks if they're not confirmed,
+   * and 3) uses the token to confirm their email.
+   * 
+   * @param userId identifier of the user for whom the email confirmation status is to
+   * be checked.
+   * 
+   * @param emailConfirmToken confirmation token for the user's email address, which
+   * is used to verify the user's email address and mark it as confirmed or unconfirmed.
+   * 
+   * @returns a boolean value indicating whether the email confirmation process was
+   * successful or not.
+   */
   @Override
   public Boolean confirmEmail(String userId, String emailConfirmToken) {
     final Optional<User> userWithToken = userRepository.findByUserIdWithTokens(userId);
@@ -148,6 +224,18 @@ public class UserSDJpaService implements UserService {
     return emailToken.map(token -> true).orElse(false);
   }
 
+  /**
+   * checks if a user's email is unconfirmed, and if so, sends an email confirmation
+   * token to the user's registered email address. If the token is used, it removes the
+   * token from the user's tokens list and saves the updated user record in the database.
+   * If the mail send is successful, it returns `true`, otherwise, it returns `false`.
+   * 
+   * @param userId unique identifier of the user for whom an email confirmation link
+   * needs to be resent.
+   * 
+   * @returns a boolean value indicating whether an email confirmation token was
+   * successfully sent to the user.
+   */
   @Override
   public boolean resendEmailConfirm(String userId) {
     return userRepository.findByUserId(userId).map(user -> {
@@ -163,11 +251,40 @@ public class UserSDJpaService implements UserService {
     }).orElse(false);
   }
 
+  /**
+   * saves a user's encrypted password in the database after updating it with the new
+   * value provided.
+   * 
+   * @param user User object that contains the encrypted password, which is then updated
+   * and saved in the database by the `saveTokenForUser()` function.
+   * 
+   * @param newPassword encrypted password for the user that will be saved in the
+   * database by the `saveTokenForUser()` function.
+   * 
+   * @returns a saved User object with an encrypted password.
+   */
   private User saveTokenForUser(User user, String newPassword) {
     user.setEncryptedPassword(passwordEncoder.encode(newPassword));
     return userRepository.save(user);
   }
 
+  /**
+   * queries a database for an unused security token with the matching token type and
+   * value, and expiration date greater than the current date, and returns the
+   * Optional<SecurityToken> if found, otherwise returns None.
+   * 
+   * @param token token being searched for in the `user.getUserTokens()` collection,
+   * which is used to determine if it exists and meets certain criteria set by the `securityTokenType`.
+   * 
+   * @param user User object that is used to filter the user tokens based on the provided
+   * token, security token type, and user credentials.
+   * 
+   * @param securityTokenType type of security token being searched for, and is used
+   * to filter the stream of user tokens to only include those with the specified type.
+   * 
+   * @returns an `Optional` object containing the valid security token for the specified
+   * user and type, if found.
+   */
   private Optional<SecurityToken> findValidUserToken(String token, User user, SecurityTokenType securityTokenType) {
     Optional<SecurityToken> userPasswordResetToken = user.getUserTokens()
         .stream()
@@ -179,22 +296,54 @@ public class UserSDJpaService implements UserService {
     return userPasswordResetToken;
   }
 
+  /**
+   * creates a new user object from a UserDto request and saves it to the repository
+   * for storage.
+   * 
+   * @param request `UserDto` object containing the details of the user to be created
+   * in the repository, which is passed through to the `userMapper` to convert it into
+   * a `User` object before saving it to the repository.
+   * 
+   * @returns a saved User object in the repository.
+   */
   private User createUserInRepository(UserDto request) {
     User user = userMapper.userDtoToUser(request);
     log.trace("saving user with id[{}] to repository", request.getId());
     return userRepository.save(user);
   }
 
+  /**
+   * updates a user's email status to confirmed and sends an account confirmation
+   * notification to the user, then saves the updated user record in the repository.
+   * 
+   * @param user User object that contains the email to be confirmed, and its methods
+   * are used to set the email as confirmed and send a notification to the user's
+   * registered email address.
+   */
   private void confirmEmail(User user) {
     user.setEmailConfirmed(true);
     mailService.sendAccountConfirmed(user);
     userRepository.save(user);
   }
 
+  /**
+   * encrypts a user's password by passing it through the `passwordEncoder`. The encrypted
+   * password is then stored in the `request` object.
+   * 
+   * @param request UserDto object that contains the original password to be encrypted,
+   * and it is used to store the encrypted password in the encoded form.
+   */
   private void encryptUserPassword(UserDto request) {
     request.setEncryptedPassword(passwordEncoder.encode(request.getPassword()));
   }
 
+  /**
+   * generates a unique user ID for a given UserDto object using the UUID library and
+   * sets it as the `UserId` property of the request object.
+   * 
+   * @param request userDto object containing information about the user whose unique
+   * ID is being generated.
+   */
   private void generateUniqueUserId(UserDto request) {
     request.setUserId(UUID.randomUUID().toString());
   }

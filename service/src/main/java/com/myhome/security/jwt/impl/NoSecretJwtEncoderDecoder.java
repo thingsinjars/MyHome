@@ -30,11 +30,33 @@ import org.springframework.stereotype.Component;
 public class NoSecretJwtEncoderDecoder implements AppJwtEncoderDecoder {
   private static final String SEPARATOR = "\\+";
 
+  /**
+   * decodes a JSON Web Token (JWT) and returns an instance of `AppJwt`.
+   * 
+   * @param encodedJwt JSON Web Token (JWT) that is to be decoded and returned as an
+   * instance of `AppJwt`.
+   * 
+   * @param secret secret key used for signing the JWT token.
+   * 
+   * @returns an instance of `AppJwt` object representing a decoded JWT token.
+   */
   @Override public AppJwt decode(String encodedJwt, String secret) {
     String[] strings = encodedJwt.split(SEPARATOR);
     return AppJwt.builder().userId(strings[0]).expiration(LocalDateTime.parse(strings[1])).build();
   }
 
+  /**
+   * takes a `AppJwt` object and a secret as input, and returns a encoded string
+   * containing the user ID and expiration time.
+   * 
+   * @param jwt JSON Web Token being encoded, containing information such as the user
+   * ID and expiration date.
+   * 
+   * @param secret secret key used to sign the JWT.
+   * 
+   * @returns a string representation of the JWT, consisting of the user ID and expiration
+   * date separated by a separator.
+   */
   @Override public String encode(AppJwt jwt, String secret) {
     return jwt.getUserId() + SEPARATOR + jwt.getExpiration();
   }

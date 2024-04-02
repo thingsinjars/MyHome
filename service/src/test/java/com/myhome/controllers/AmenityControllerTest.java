@@ -59,6 +59,11 @@ class AmenityControllerTest {
   @InjectMocks
   private AmenityController amenityController;
 
+  /**
+   * tests the add amenity to community functionality of the controller by creating a
+   * request with an amenity and community ID, then calling the controller's
+   * addAmenityToCommunity method and verifying that the response status code is OK.
+   */
   @Test
   void shouldAddAmenityToCommunity() {
     // given
@@ -83,6 +88,10 @@ class AmenityControllerTest {
     assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
+  /**
+   * tests whether the `addAmenityToCommunity` method will return a `HttpStatus.NOT_FOUND`
+   * response when the given community does not exist.
+   */
   @Test
   void shouldNotAddAmenityWhenCommunityNotExists() {
     // given
@@ -101,11 +110,19 @@ class AmenityControllerTest {
     assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
   }
 
+  /**
+   * initializes Mockito mocking for the class, allowing for effective unit testing.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * retrieves an amenity's details from the database and maps it to a response object
+   * using API mapper, returning the result as a ResponseEntity with HTTP status code
+   * OK and verifying the calls to the underlying services.
+   */
   @Test
   void getAmenityDetails() {
     // given
@@ -130,6 +147,11 @@ class AmenityControllerTest {
     verify(amenityApiMapper).amenityToAmenityDetailsResponse(testAmenity);
   }
 
+  /**
+   * tests that the `getAmenityDetails` method returns a `ResponseEntity` with a `body`
+   * of `null` and an `statusCode` of `NOT_FOUND` when the amenity ID does not exist
+   * in the database.
+   */
   @Test
   void getAmenityDetailsNotExists() {
     // given
@@ -147,6 +169,11 @@ class AmenityControllerTest {
     verify(amenityApiMapper, never()).amenityToAmenityDetailsResponse(any());
   }
 
+  /**
+   * deletes an amenity from the database using the `amenitySDJpaService`. It returns
+   * a ResponseEntity with a null body and a HTTP status code of `NO_CONTENT`, indicating
+   * that the operation was successful.
+   */
   @Test
   void deleteAmenity() {
     // given
@@ -162,6 +189,10 @@ class AmenityControllerTest {
     verify(amenitySDJpaService).deleteAmenity(TEST_AMENITY_ID);
   }
 
+  /**
+   * tests whether deleting an amenity that does not exist returns a `HttpStatus.NOT_FOUND`
+   * response and verifies that the amenity is not deleted from the database.
+   */
   @Test
   void deleteAmenityNotExists() {
     // given
@@ -177,6 +208,12 @@ class AmenityControllerTest {
     verify(amenitySDJpaService).deleteAmenity(TEST_AMENITY_ID);
   }
 
+  /**
+   * tests whether updating an amenity through the controller returns a successful
+   * response with a `HttpStatus.NO_CONTENT`. It uses stubs to verify that the necessary
+   * methods, `updateAmenityRequestToAmenityDto`, `updateAmenity`, were called with the
+   * correct arguments.
+   */
   @Test
   void shouldUpdateAmenitySuccessfully() {
     // given
@@ -198,6 +235,10 @@ class AmenityControllerTest {
     verify(amenitySDJpaService).updateAmenity(amenityDto);
   }
 
+  /**
+   * tests that an attempt to update a non-existent amenity returns a `HttpStatus.NOT_FOUND`
+   * response and verifies the corresponding API calls are made.
+   */
   @Test
   void shouldNotUpdateCommunityAmenityIfAmenityNotExists() {
     // given
@@ -219,12 +260,23 @@ class AmenityControllerTest {
     verify(amenitySDJpaService).updateAmenity(amenityDto);
   }
 
+  /**
+   * generates a new instance of the `Amenity` class with predefined ID and description
+   * for testing purposes.
+   * 
+   * @returns a new `Amenity` object with predefined ID and description.
+   */
   private Amenity getTestAmenity() {
     return new Amenity()
         .withAmenityId(TEST_AMENITY_ID)
         .withDescription(TEST_AMENITY_DESCRIPTION);
   }
 
+  /**
+   * creates a new instance of the `AmenityDto` class with test data for an amenity.
+   * 
+   * @returns a `AmenityDto` object with mock data for testing purposes.
+   */
   private AmenityDto getTestAmenityDto() {
     return new AmenityDto()
         .id(1L)
@@ -235,6 +287,12 @@ class AmenityControllerTest {
         .communityId(TEST_COMMUNITY_ID);
   }
 
+  /**
+   * creates an instance of the `UpdateAmenityRequest` class with specified name,
+   * description, price, and community ID for further use.
+   * 
+   * @returns an instance of `UpdateAmenityRequest` object with set properties.
+   */
   private UpdateAmenityRequest getUpdateAmenityRequest() {
     return new UpdateAmenityRequest()
         .name(TEST_AMENITY_NAME)

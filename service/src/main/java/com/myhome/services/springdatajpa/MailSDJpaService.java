@@ -34,6 +34,17 @@ public class MailSDJpaService implements MailService {
   private final ResourceBundleMessageSource messageSource;
   private final MailProperties mailProperties;
 
+  /**
+   * generates a random password recovery code for a user and sends an email with the
+   * code to the user's registered email address using a templated message.
+   * 
+   * @param user user for whom the password recovery code is being generated and sent.
+   * 
+   * @param randomCode 6-digit code sent to the user's email address for password recovery.
+   * 
+   * @returns a boolean value indicating whether an email was sent to the user's
+   * registered email address with a password recover code.
+   */
   @Override
   public boolean sendPasswordRecoverCode(User user, String randomCode) {
     Map<String, Object> templateModel = new HashMap<>();
@@ -45,6 +56,14 @@ public class MailSDJpaService implements MailService {
     return mailSent;
   }
 
+  /**
+   * sends an email to a user upon successful password change.
+   * 
+   * @param user user for whom the password change was successfuly completed.
+   * 
+   * @returns a boolean value indicating whether an email was successfully sent to the
+   * user's registered email address.
+   */
   @Override
   public boolean sendPasswordSuccessfullyChanged(User user) {
     Map<String, Object> templateModel = new HashMap<>();
@@ -55,6 +74,17 @@ public class MailSDJpaService implements MailService {
     return mailSent;
   }
 
+  /**
+   * sends a confirmation email to a user's registered email address after creating an
+   * account, with a link to confirm the account creation.
+   * 
+   * @param user created account user.
+   * 
+   * @param emailConfirmToken token for the user to confirm their email address.
+   * 
+   * @returns a boolean value indicating whether an email was sent successfully to
+   * confirm the account creation.
+   */
   @Override
   public boolean sendAccountCreated(User user, SecurityToken emailConfirmToken) {
     Map<String, Object> templateModel = new HashMap<>();
@@ -67,6 +97,14 @@ public class MailSDJpaService implements MailService {
     return mailSent;
   }
 
+  /**
+   * sends an email to a user's registered email address with a confirmation message.
+   * 
+   * @param user user for whom the account confirmation email should be sent.
+   * 
+   * @returns a boolean value indicating whether an email was sent to the user's
+   * registered email address.
+   */
   @Override
   public boolean sendAccountConfirmed(User user) {
     Map<String, Object> templateModel = new HashMap<>();
@@ -77,6 +115,16 @@ public class MailSDJpaService implements MailService {
     return mailSent;
   }
 
+  /**
+   * creates a MimeMessage object and sets various properties such as from, to, subject,
+   * and text. It then uses the mailSender's send method to send the message.
+   * 
+   * @param to email address of the recipient to whom the HTML message is sent.
+   * 
+   * @param subject subject line of the email to be sent.
+   * 
+   * @param htmlBody text message that is sent as an HTML email.
+   */
   private void sendHtmlMessage(String to, String subject, String htmlBody) throws MessagingException {
     MimeMessage message = mailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -87,6 +135,24 @@ public class MailSDJpaService implements MailService {
     mailSender.send(message);
   }
 
+  /**
+   * takes an email to, subject, template name, and model as parameters. It uses Thymeleaf
+   * to generate HTML content from a template based on the provided model, then sends
+   * the message via `sendHtmlMessage`. If any errors occur during sending, it logs
+   * them and returns false.
+   * 
+   * @param emailTo email address to which the generated HTML message will be sent.
+   * 
+   * @param subject subject line of the email to be sent.
+   * 
+   * @param templateName name of the Thymeleaf template to be processed and rendered
+   * as an HTML message.
+   * 
+   * @param templateModel mapping of Thymeleaf templates to application data, which is
+   * used to generate the email body through the `emailTemplateEngine.process()` method.
+   * 
+   * @returns a boolean value indicating whether the email was sent successfully or not.
+   */
   private boolean send(String emailTo, String subject, String templateName, Map<String, Object> templateModel) {
     try {
       Context thymeleafContext = new Context(LocaleContextHolder.getLocale());
@@ -100,6 +166,19 @@ public class MailSDJpaService implements MailService {
     return true;
   }
 
+  /**
+   * generates a unique link for an email confirmation process to verify a user's
+   * account. The link is constructed by combining the base URL with the user's ID and
+   * security token.
+   * 
+   * @param user User object containing information about the user for whom the email
+   * confirmation link should be generated.
+   * 
+   * @param token security token that is used to authenticate the user and retrieve
+   * their email confirmation link.
+   * 
+   * @returns a URL string in the format `/users/{userId}/email-confirm/{token}`.
+   */
   private String getAccountConfirmLink(User user, SecurityToken token) {
     String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
         .replacePath(null)
@@ -108,6 +187,15 @@ public class MailSDJpaService implements MailService {
     return String.format("%s/users/%s/email-confirm/%s", baseUrl, user.getUserId(), token.getToken());
   }
 
+  /**
+   * retrieves a message from a message source based on a given property name, handling
+   * potential localization errors.
+   * 
+   * @param prop string that will be localized and returned by the `getLocalizedMessage()`
+   * function.
+   * 
+   * @returns a localized message based on a given property name and locale.
+   */
   private String getLocalizedMessage(String prop) {
     String message = "";
     try {

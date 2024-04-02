@@ -25,11 +25,20 @@ public class BookingControllerTest {
   @InjectMocks
   private BookingController bookingController;
 
+  /**
+   * initializes Mockito annotations for the class, enabling mocking of dependencies
+   * and methods.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * tests the deleteBooking method of the BookingController class by providing a given
+   * booking ID and expecting the method to delete it successfully from the database
+   * and return a ResponseEntity with a status code of NO_CONTENT.
+   */
   @Test
   void deleteBooking() {
     // given
@@ -46,6 +55,10 @@ public class BookingControllerTest {
     verify(bookingSDJpaService).deleteBooking(TEST_AMENITY_ID, TEST_BOOKING_ID);
   }
 
+  /**
+   * tests whether the `bookingController.deleteBooking()` method throws a `NotFoundException`
+   * when the booking does not exist in the database.
+   */
   @Test
   void deleteBookingNotExists() {
     // given
