@@ -7,3 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AmenityBookingItemRepository extends JpaRepository<AmenityBookingItem, String> {
   Optional<AmenityBookingItem> findByAmenityBookingItemId(String amenityBookingItemId);
 }
+
+

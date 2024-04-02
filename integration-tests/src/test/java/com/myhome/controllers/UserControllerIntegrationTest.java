@@ -73,3 +73,5 @@ class UserControllerIntegrationTest {
     assertThat(databaseUser.get().getEmail()).isEqualTo(TEST_EMAIL);
   }
 }
+
+

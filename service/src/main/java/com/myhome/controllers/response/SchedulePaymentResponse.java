@@ -34,3 +34,5 @@ public class SchedulePaymentResponse {
   private String adminId;
   private String memberId;
 }
+
+

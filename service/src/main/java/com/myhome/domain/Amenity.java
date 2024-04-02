@@ -72,3 +72,5 @@ public class Amenity extends BaseEntity {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "amenity")
   private Set<AmenityBookingItem> bookingItems = new HashSet<>();
 }
+
+

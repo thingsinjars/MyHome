@@ -210,3 +210,4 @@ class HouseSDJpaServiceTest {
     verifyNoInteractions(houseMemberRepository);
   }
 }
+

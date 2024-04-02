@@ -38,3 +38,5 @@ public class HouseMemberDocument extends BaseEntity {
   @Column
   private byte[] documentContent = new byte[0];
 }
+
+

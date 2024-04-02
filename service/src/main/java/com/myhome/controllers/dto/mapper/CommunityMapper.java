@@ -25,3 +25,5 @@ public interface CommunityMapper {
 
   Community communityDtoToCommunity(CommunityDto communityDto);
 }
+
+

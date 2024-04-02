@@ -31,3 +31,5 @@ public class CommunityDto {
   private String district;
   private Set<UserDto> admins;
 }
+
+

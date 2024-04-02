@@ -15,3 +15,5 @@ public class EmailTemplateProperties {
   private String mode;
   private boolean cache;
 }
+
+

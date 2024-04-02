@@ -9,3 +9,5 @@ public class UserNotFoundException extends AuthenticationException {
     log.info("User not found - email: " + userEmail);
   }
 }
+
+

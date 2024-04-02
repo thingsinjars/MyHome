@@ -77,3 +77,5 @@ public class User extends BaseEntity {
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tokenOwner")
   private Set<SecurityToken> userTokens = new HashSet<>();
 }
+
+

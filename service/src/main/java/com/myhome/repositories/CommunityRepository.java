@@ -43,3 +43,5 @@ public interface CommunityRepository extends PagingAndSortingRepository<Communit
 
   boolean existsByCommunityId(String communityId);
 }
+
+

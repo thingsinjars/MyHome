@@ -11,3 +11,5 @@ public enum MailTemplatesNames {
     this.filename = fileName;
   }
 }
+
+

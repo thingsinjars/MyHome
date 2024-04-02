@@ -54,3 +54,5 @@ public class AmenityBookingItem extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private User bookingUser;
 }
+
+

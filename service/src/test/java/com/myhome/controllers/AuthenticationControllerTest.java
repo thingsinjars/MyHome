@@ -62,3 +62,5 @@ public class AuthenticationControllerTest {
     return new AuthenticationData(TOKEN, TEST_ID);
   }
 }
+
+

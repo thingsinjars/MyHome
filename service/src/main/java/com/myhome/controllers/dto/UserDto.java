@@ -34,3 +34,5 @@ public class UserDto {
   private Set<String> communityIds;
   private boolean emailConfirmed;
 }
+
+

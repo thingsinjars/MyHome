@@ -329,3 +329,4 @@ class UserControllerTest {
     then(userApiMapper).shouldHaveNoInteractions();
   }
 }
+

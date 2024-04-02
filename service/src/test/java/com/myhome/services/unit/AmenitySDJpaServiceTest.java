@@ -313,3 +313,4 @@ class AmenitySDJpaServiceTest {
         .withCommunity(TestUtils.CommunityHelpers.getTestCommunity());
   }
 }
+

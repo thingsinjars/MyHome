@@ -52,3 +52,5 @@ public interface CommunityService {
 
   boolean removeAdminFromCommunity(String communityId, String adminId);
 }
+
+

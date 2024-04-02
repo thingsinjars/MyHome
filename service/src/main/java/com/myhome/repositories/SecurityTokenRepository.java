@@ -5,3 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SecurityTokenRepository extends JpaRepository<SecurityToken, Long> {
 }
+
+

@@ -30,3 +30,5 @@ public interface HouseMemberRepository extends CrudRepository<HouseMember, Long>
   List<HouseMember> findAllByCommunityHouse_Community_Admins_UserId(String userId,
       Pageable pageable);
 }
+
+

@@ -64,3 +64,4 @@ public class CommunityAuthorizationFilter extends BasicAuthenticationFilter {
         return false;
     }
 }
+

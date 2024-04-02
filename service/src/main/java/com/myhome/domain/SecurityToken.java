@@ -31,3 +31,5 @@ public class SecurityToken extends BaseEntity {
   @ManyToOne
   private User tokenOwner;
 }
+
+

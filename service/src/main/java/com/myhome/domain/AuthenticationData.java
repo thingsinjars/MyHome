@@ -9,3 +9,5 @@ public class AuthenticationData {
   private final String jwtToken;
   private final String userId;
 }
+
+

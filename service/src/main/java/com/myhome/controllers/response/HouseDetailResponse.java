@@ -27,3 +27,5 @@ import lombok.NoArgsConstructor;
 public class HouseDetailResponse {
   private CommunityHouseDto house;
 }
+
+

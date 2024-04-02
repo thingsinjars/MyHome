@@ -54,3 +54,5 @@ public interface CommunityApiMapper {
   Set<GetHouseDetailsResponseCommunityHouse> communityHouseSetToRestApiResponseCommunityHouseSet(
       Set<CommunityHouse> communityHouse);
 }
+
+

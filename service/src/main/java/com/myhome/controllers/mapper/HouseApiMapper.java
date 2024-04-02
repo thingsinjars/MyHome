@@ -29,3 +29,5 @@ public interface HouseApiMapper {
   GetHouseDetailsResponseCommunityHouse communityHouseToRestApiResponseCommunityHouse(
       CommunityHouse communityHouse);
 }
+
+

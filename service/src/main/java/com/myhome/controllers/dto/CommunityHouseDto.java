@@ -27,3 +27,5 @@ public class CommunityHouseDto {
   private String houseId;
   private String name;
 }
+
+

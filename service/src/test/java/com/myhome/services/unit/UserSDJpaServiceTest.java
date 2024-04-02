@@ -615,3 +615,4 @@ class UserSDJpaServiceTest {
     return new SecurityToken(tokenType, token, LocalDate.now(), expireDate, false, user);
   }
 }
+

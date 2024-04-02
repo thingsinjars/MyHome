@@ -6,3 +6,5 @@ import com.myhome.model.LoginRequest;
 public interface AuthenticationService {
   AuthenticationData login(LoginRequest loginRequest);
 }
+
+

@@ -9,3 +9,5 @@ public class CredentialsIncorrectException extends AuthenticationException {
     log.info("Credentials are incorrect for userId: " + userId);
   }
 }
+
+

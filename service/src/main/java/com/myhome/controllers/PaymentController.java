@@ -142,3 +142,5 @@ public class PaymentController implements PaymentsApi {
             () -> new RuntimeException("Community with given id not exists: " + communityId));
   }
 }
+
+

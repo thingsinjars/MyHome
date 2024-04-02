@@ -5,3 +5,5 @@ public interface BookingService {
   boolean deleteBooking(String amenityId, String bookingId);
 
 }
+
+

@@ -15,3 +15,5 @@ public class ForgotPasswordRequest {
   public String token;
   public String newPassword;
 }
+
+

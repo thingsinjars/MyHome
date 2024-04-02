@@ -47,3 +47,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   List<User> findAllByCommunities_CommunityId(String communityId, Pageable pageable);
 }
+
+

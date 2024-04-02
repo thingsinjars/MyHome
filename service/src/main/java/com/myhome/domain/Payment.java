@@ -55,3 +55,5 @@ public class Payment extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private HouseMember member;
 }
+
+

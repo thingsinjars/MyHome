@@ -27,3 +27,4 @@ class AppJwtParamTest {
     System.out.println(param);
   }
 }
+

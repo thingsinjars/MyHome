@@ -44,3 +44,5 @@ public interface UserService {
 
   Boolean confirmEmail(String userId, String emailConfirmToken);
 }
+
+

@@ -36,3 +36,5 @@ public interface AmenityApiMapper {
 
   AmenityDto updateAmenityRequestToAmenityDto(UpdateAmenityRequest request);
 }
+
+

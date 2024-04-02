@@ -62,3 +62,5 @@ public class BookingControllerTest {
     verify(bookingSDJpaService).deleteBooking(TEST_AMENITY_ID, TEST_BOOKING_ID);
   }
 }
+
+

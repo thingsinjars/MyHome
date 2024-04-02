@@ -21,3 +21,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HouseMemberDocumentRepository extends JpaRepository<HouseMemberDocument, Long> {
 }
+
+

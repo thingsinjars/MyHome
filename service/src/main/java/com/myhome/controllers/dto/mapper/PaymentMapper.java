@@ -30,3 +30,5 @@ public interface PaymentMapper {
   @Mapping(source = "payment.dueDate", target = "dueDate", dateFormat = "yyyy-MM-dd")
   PaymentDto paymentToPaymentDto(Payment payment);
 }
+
+

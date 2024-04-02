@@ -31,3 +31,4 @@ public class AppJwt {
   private final String userId;
   private final LocalDateTime expiration;
 }
+

@@ -159,3 +159,5 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).deleteHouseMemberDocument(MEMBER_ID);
   }
 }
+
+

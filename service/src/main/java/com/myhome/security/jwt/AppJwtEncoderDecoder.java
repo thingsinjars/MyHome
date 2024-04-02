@@ -24,3 +24,5 @@ public interface AppJwtEncoderDecoder {
 
   String encode(AppJwt jwt, String secret);
 }
+
+

@@ -39,3 +39,5 @@ public interface UserApiMapper {
 
   GetUserDetailsResponseUser userDtoToGetUserDetailsResponse(UserDto userDto);
 }
+
+

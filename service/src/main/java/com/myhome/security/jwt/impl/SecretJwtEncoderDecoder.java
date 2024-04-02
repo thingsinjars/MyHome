@@ -56,3 +56,5 @@ public class SecretJwtEncoderDecoder implements AppJwtEncoderDecoder {
         .signWith(Keys.hmacShaKeyFor(secret.getBytes()), SignatureAlgorithm.HS512).compact();
   }
 }
+
+

@@ -34,3 +34,5 @@ public interface AmenityService {
 
   boolean updateAmenity(AmenityDto updatedAmenityDto);
 }
+
+

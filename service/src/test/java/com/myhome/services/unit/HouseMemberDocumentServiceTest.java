@@ -302,3 +302,5 @@ public class HouseMemberDocumentServiceTest {
     verify(houseMemberRepository, never()).save(any());
   }
 }
+
+

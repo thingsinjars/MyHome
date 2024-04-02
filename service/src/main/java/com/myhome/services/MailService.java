@@ -13,3 +13,5 @@ public interface MailService {
 
   boolean sendAccountConfirmed(User user);
 }
+
+

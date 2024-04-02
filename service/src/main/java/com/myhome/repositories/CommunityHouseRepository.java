@@ -44,3 +44,5 @@ public interface CommunityHouseRepository extends PagingAndSortingRepository<Com
 
   void deleteByHouseId(String houseId);
 }
+
+

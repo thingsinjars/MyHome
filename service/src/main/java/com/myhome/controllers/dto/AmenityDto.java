@@ -36,3 +36,5 @@ public class AmenityDto {
   private BigDecimal price;
   private String communityId;
 }
+
+

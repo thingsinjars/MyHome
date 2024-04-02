@@ -38,3 +38,5 @@ public interface PaymentService {
 
   Optional<HouseMember> getHouseMember(String memberId);
 }
+
+

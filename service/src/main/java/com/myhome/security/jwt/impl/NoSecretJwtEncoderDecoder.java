@@ -39,3 +39,5 @@ public class NoSecretJwtEncoderDecoder implements AppJwtEncoderDecoder {
     return jwt.getUserId() + SEPARATOR + jwt.getExpiration();
   }
 }
+
+

@@ -79,3 +79,5 @@ public class Community extends BaseEntity {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "community", orphanRemoval = true)
   private Set<Amenity> amenities = new HashSet<>();
 }
+
+

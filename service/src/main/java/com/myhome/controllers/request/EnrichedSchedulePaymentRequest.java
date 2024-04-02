@@ -64,3 +64,5 @@ public class EnrichedSchedulePaymentRequest extends SchedulePaymentRequest {
     this.houseMemberHouseID = houseMemberHouseID;
   }
 }
+
+

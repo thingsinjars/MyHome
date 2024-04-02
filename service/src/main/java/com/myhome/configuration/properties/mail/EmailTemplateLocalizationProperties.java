@@ -13,3 +13,5 @@ public class EmailTemplateLocalizationProperties {
   private String encoding;
   private int cacheSeconds;
 }
+
+

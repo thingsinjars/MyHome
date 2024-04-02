@@ -141,3 +141,5 @@ public interface SchedulePaymentApiMapper {
         .name(enrichedSchedulePaymentRequest.getHouseMemberName());
   }
 }
+
+

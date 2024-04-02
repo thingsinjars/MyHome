@@ -32,3 +32,5 @@ public interface HouseMemberDocumentService {
   Optional<HouseMemberDocument> createHouseMemberDocument(MultipartFile multipartFile,
       String memberId);
 }
+
+

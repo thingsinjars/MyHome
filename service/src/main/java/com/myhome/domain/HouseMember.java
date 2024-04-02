@@ -49,3 +49,5 @@ public class HouseMember extends BaseEntity {
   @ManyToOne
   private CommunityHouse communityHouse;
 }
+
+

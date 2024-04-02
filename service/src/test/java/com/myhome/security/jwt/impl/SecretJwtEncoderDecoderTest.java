@@ -87,3 +87,4 @@ class SecretJwtEncoderDecoderTest {
         () -> jwtEncoderDecoder.decode(EXPIRED_JWT, VALID_SECRET));
   }
 }
+

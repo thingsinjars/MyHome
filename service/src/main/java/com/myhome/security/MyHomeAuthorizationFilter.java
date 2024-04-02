@@ -78,3 +78,5 @@ public class MyHomeAuthorizationFilter extends BasicAuthenticationFilter {
     return new UsernamePasswordAuthenticationToken(jwt.getUserId(), null, Collections.emptyList());
   }
 }
+
+

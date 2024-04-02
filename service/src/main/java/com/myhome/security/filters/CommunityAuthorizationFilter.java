@@ -54,3 +54,5 @@ public class CommunityAuthorizationFilter extends BasicAuthenticationFilter {
         .isPresent();
   }
 }
+
+

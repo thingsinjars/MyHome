@@ -68,3 +68,5 @@ public class CommunityHouse extends BaseEntity {
   @OneToMany(fetch = FetchType.LAZY)
   private Set<Amenity> amenities = new HashSet<>();
 }
+
+

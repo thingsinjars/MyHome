@@ -12,3 +12,5 @@ public class AuthenticationException extends RuntimeException {
     super(ERROR_MESSAGE);
   }
 }
+
+
