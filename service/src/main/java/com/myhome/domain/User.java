@@ -37,9 +37,7 @@ import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Entity identifying a valid user in the service.
- */
+
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
