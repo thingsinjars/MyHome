@@ -38,6 +38,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * represents a user account in a system with attributes such as name, user ID, email,
+ * and encrypted password, and relationships with communities and security tokens.
+ * Fields:
+ * 	- name (String): in the User class represents a string value that identifies the
+ * user's personal name.
+ * 	- userId (String): represents a unique identifier for a user in the system.
+ * 	- email (String): in the User class stores a unique string value representing an
+ * email address associated with the user account.
+ * 	- emailConfirmed (boolean): indicates whether an user's email address has been
+ * confirmed through a verification process.
+ * 	- encryptedPassword (String): in the User class represents an encrypted string
+ * of password data.
+ * 	- communities (Set<Community>): in the User class represents a many-to-many
+ * relationship between the User entity and the Community entity, with the User entity
+ * having multiple communities and each community having multiple Users as members.
+ * 	- userTokens (Set<SecurityToken>): represents a set of SecurityTokens associated
+ * with a single User entity in the provided Java code.
+ */
 @AllArgsConstructor
 @Getter
 @NoArgsConstructor
