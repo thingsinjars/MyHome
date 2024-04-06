@@ -21,6 +21,24 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * represents a data transfer object (DTO) for user data, containing fields for user
+ * ID, name, email, password, and community membership, as well as flags for email
+ * confirmation and password encryption.
+ * Fields:
+ * 	- id (Long): represents a unique identifier for a user in the system.
+ * 	- userId (String): in the UserDto class represents a unique identifier for a user.
+ * 	- name (String): in UserDto represents the user's personal name.
+ * 	- email (String): in UserDto is for storing a user's email address.
+ * 	- password (String): in the `UserDto` class is used to store an encrypted password
+ * for authentication purposes.
+ * 	- encryptedPassword (String): in the UserDto class stores an encrypted version
+ * of the user's password.
+ * 	- communityIds (Set<String>): in the UserDto class represents a set of strings
+ * that contain the identifiers of communities to which the user belongs.
+ * 	- emailConfirmed (boolean): indicates whether an email address associated with
+ * the user has been confirmed.
+ */
 @Builder
 @Getter
 @Setter
