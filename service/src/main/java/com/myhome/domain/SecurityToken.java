@@ -13,22 +13,20 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
 /**
- * represents a secure token with a unique identifier, creation and expiry dates, and
- * an owner, with the ability to mark it as used or unused.
+ * represents a secure token with a unique identifier and various attributes related
+ * to its creation, expiration, and usage, along with a reference to the user who
+ * owns the token.
  * Fields:
- * 	- tokenType (SecurityTokenType): represents an enumerated type indicating the
- * category of security token, such as "access token" or "refresh token".
- * 	- token (String): is an instance of the SecurityTokenType enumeration type,
- * representing one of several types of security tokens, along with a unique token
- * string and metadata such as creation and expiry dates, and a boolean flag indicating
- * whether it has been used.
+ * 	- tokenType (SecurityTokenType): in the SecurityToken class represents an enumeration
+ * of possible types of security tokens.
+ * 	- token (String): is of type SecurityTokenType and stores an enumerated value
+ * representing the token's type.
  * 	- creationDate (LocalDate): represents the date when the security token was created.
- * 	- expiryDate (LocalDate): represents the date after which the SecurityToken becomes
- * invalid or no longer usable.
- * 	- isUsed (boolean): in the SecurityToken class indicates whether a token has been
- * used or not.
- * 	- tokenOwner (User): in the SecurityToken class represents a user who owns or has
- * access to the security token in question.
+ * 	- expiryDate (LocalDate): represents the date after which the SecurityToken is
+ * no longer valid or usable.
+ * 	- isUsed (boolean): indicates whether the security token has been used or not.
+ * 	- tokenOwner (User): represents an entity (either a user or another object) that
+ * owns or has access to the security token.
  */
 @Entity
 @Data
