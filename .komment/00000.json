@@ -4,13 +4,13 @@
     "path": "service/src/main/java/com/myhome/controllers/AuthenticationController.java",
     "content": {
       "structured": {
-        "description": "An AuthenticationController class that implements the AuthenticationApi interface. The class contains a constructor that requires the authentication service to be injected, and it creates HTTP headers for login responses using the AuthenticationData object.",
+        "description": "An `AuthenticationController` class that acts as a RESTful API for authentication purposes. The controller receives a `LoginRequest` object from the client and passes it to an `AuthenticationService` implementation for processing. Once the authentication is successful, the controller creates and returns a `ResponseEntity` object with the user ID and JWT token in the HTTP headers.",
         "items": [
           {
-            "id": "0fcae8eb-e6b4-ca96-0444-af3898b30deb",
+            "id": "67b31248-bfd1-d99c-3341-ecaa02e883c7",
             "ancestors": [],
             "type": "function",
-            "description": "Is a Spring Boot REST controller that implements the AuthenticationApi interface. It creates HTTP headers for logging in users and returns them in response entities.",
+            "description": "Is a Spring REST controller that implements the AuthenticationApi interface. It provides a login method that takes a valid LoginRequest object as input and returns a ResponseEntity with the user ID and JWT token in the HTTP headers. The class also includes a private method for creating the HTTP headers based on the returned AuthenticationData object.",
             "name": "AuthenticationController",
             "location": {
               "start": 13,
@@ -20,21 +20,58 @@
               "comment": null
             },
             "item_type": "class",
-            "length": 13,
+            "length": 21,
             "docLength": null
           },
           {
-            "id": "29c73829-cde5-d482-de45-867ff4b4d39d",
+            "id": "5620b936-01c1-8896-c845-4de7296520b1",
             "ancestors": [
-              "0fcae8eb-e6b4-ca96-0444-af3898b30deb"
+              "67b31248-bfd1-d99c-3341-ecaa02e883c7"
             ],
             "type": "function",
-            "description": "Creates HTTP headers with user ID and JWT token for login purposes based on provided `AuthenticationData`.",
+            "description": "Authenticates a user by calling the `loginService` and returning an `ResponseEntity` with the authentication data.",
+            "params": [
+              {
+                "name": "loginRequest",
+                "type_name": "LoginRequest",
+                "description": "user's login details, containing the username and password for authentication by the `authenticationService`.",
+                "complex_type": false
+              }
+            ],
+            "returns": {
+              "type_name": "ResponseEntity",
+              "description": "a `ResponseEntity` object with an `OK` status and headers containing authentication data.",
+              "complex_type": false
+            },
+            "usage": {
+              "language": "java",
+              "code": "@Test\npublic void testLogin() {\n    LoginRequest request = new LoginRequest(\"example@gmail.com\", \"password\");\n    ResponseEntity<Void> response = authenticationController.login(request);\n    assertEquals(HttpStatus.OK, response.getStatusCode());\n}\n",
+              "description": ""
+            },
+            "name": "login",
+            "location": {
+              "start": 19,
+              "insert": 19,
+              "offset": " ",
+              "indent": 2,
+              "comment": null
+            },
+            "item_type": "method",
+            "length": 7,
+            "docLength": null
+          },
+          {
+            "id": "e6898b37-54cd-c09b-8141-f29d241a8dd6",
+            "ancestors": [
+              "67b31248-bfd1-d99c-3341-ecaa02e883c7"
+            ],
+            "type": "function",
+            "description": "Creates HTTP headers with user ID and JWT token for login purposes based on input `AuthenticationData`.",
             "params": [
               {
                 "name": "authenticationData",
                 "type_name": "AuthenticationData",
-                "description": "user details for creating HTTP headers.",
+                "description": "user's login information, providing the user ID and JWT token for authentication purposes.",
                 "complex_type": false
               }
             ],
@@ -45,13 +82,13 @@
             },
             "usage": {
               "language": "java",
-              "code": "public class AuthenticationControllerTest {\n  @Test\n  void createLoginHeaders() {\n    final AuthenticationData authenticationData = new AuthenticationData(\"userId\", \"token\");\n    final HttpHeaders headers = createLoginHeaders(authenticationData);\n    assertEquals(\"userId\", headers.getFirst(\"userId\"));\n    assertEquals(\"token\", headers.getFirst(\"token\"));\n  }\n}\n",
+              "code": "public void exampleMethod() {\n    final AuthenticationData authenticationData = new AuthenticationData(\"userId\", \"jwtToken\");\n    HttpHeaders headers = createLoginHeaders(authenticationData);\n}\n",
               "description": ""
             },
             "name": "createLoginHeaders",
             "location": {
-              "start": 19,
-              "insert": 19,
+              "start": 27,
+              "insert": 27,
               "offset": " ",
               "indent": 2,
               "comment": null
