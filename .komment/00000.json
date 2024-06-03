@@ -1,0 +1,67 @@
+[
+  {
+    "name": "AuthenticationController.java",
+    "path": "service/src/main/java/com/myhome/controllers/AuthenticationController.java",
+    "content": {
+      "structured": {
+        "description": "An AuthenticationController class that implements the AuthenticationApi interface. The class contains a constructor that requires the authentication service to be injected, and it creates HTTP headers for login responses using the AuthenticationData object.",
+        "items": [
+          {
+            "id": "0fcae8eb-e6b4-ca96-0444-af3898b30deb",
+            "ancestors": [],
+            "type": "function",
+            "description": "Is a Spring Boot REST controller that implements the AuthenticationApi interface. It creates HTTP headers for logging in users and returns them in response entities.",
+            "name": "AuthenticationController",
+            "location": {
+              "start": 13,
+              "insert": 13,
+              "offset": " ",
+              "indent": 0,
+              "comment": null
+            },
+            "item_type": "class",
+            "length": 13,
+            "docLength": null
+          },
+          {
+            "id": "29c73829-cde5-d482-de45-867ff4b4d39d",
+            "ancestors": [
+              "0fcae8eb-e6b4-ca96-0444-af3898b30deb"
+            ],
+            "type": "function",
+            "description": "Creates HTTP headers with user ID and JWT token for login purposes based on provided `AuthenticationData`.",
+            "params": [
+              {
+                "name": "authenticationData",
+                "type_name": "AuthenticationData",
+                "description": "user details for creating HTTP headers.",
+                "complex_type": false
+              }
+            ],
+            "returns": {
+              "type_name": "HttpHeaders",
+              "description": "a set of HTTP headers containing the user ID and JWT token for authentication purposes.",
+              "complex_type": false
+            },
+            "usage": {
+              "language": "java",
+              "code": "public class AuthenticationControllerTest {\n  @Test\n  void createLoginHeaders() {\n    final AuthenticationData authenticationData = new AuthenticationData(\"userId\", \"token\");\n    final HttpHeaders headers = createLoginHeaders(authenticationData);\n    assertEquals(\"userId\", headers.getFirst(\"userId\"));\n    assertEquals(\"token\", headers.getFirst(\"token\"));\n  }\n}\n",
+              "description": ""
+            },
+            "name": "createLoginHeaders",
+            "location": {
+              "start": 19,
+              "insert": 19,
+              "offset": " ",
+              "indent": 2,
+              "comment": null
+            },
+            "item_type": "method",
+            "length": 6,
+            "docLength": null
+          }
+        ]
+      }
+    }
+  }
+]
