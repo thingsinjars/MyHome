@@ -16,14 +16,6 @@ public class AuthenticationController implements AuthenticationApi {
 
   private final AuthenticationService authenticationService;
 
-  @Override
-  public ResponseEntity<Void> login(@Valid LoginRequest loginRequest) {
-    final AuthenticationData authenticationData = authenticationService.login(loginRequest);
-    return ResponseEntity.ok()
-        .headers(createLoginHeaders(authenticationData))
-        .build();
-  }
-
   private HttpHeaders createLoginHeaders(AuthenticationData authenticationData) {
     final HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add("userId", authenticationData.getUserId());
