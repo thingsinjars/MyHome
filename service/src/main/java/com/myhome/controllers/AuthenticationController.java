@@ -11,8 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Is a Spring Boot REST controller that implements the AuthenticationApi interface.
- * It creates HTTP headers for logging in users and returns them in response entities.
+ * Implements the AuthenticationApi interface and creates HTTP headers for logging
+ * in users based on provided authentication data. The class has one method,
+ * createLoginHeaders, which takes an AuthenticationData object as input and returns
+ * a set of HTTP headers containing the user ID and JWT token for authentication purposes.
  */
 @RequiredArgsConstructor
 @RestController
@@ -21,10 +23,11 @@ public class AuthenticationController implements AuthenticationApi {
   private final AuthenticationService authenticationService;
 
   /**
-   * Creates HTTP headers with user ID and JWT token for login purposes based on provided
-   * `AuthenticationData`.
+   * Creates an HTTP headers object containing user ID and JWT token for authentication
+   * purposes.
    * 
-   * @param authenticationData user details for creating HTTP headers.
+   * @param authenticationData user's login information, providing the user ID and JWT
+   * token required for authentication.
    * 
    * @returns a set of HTTP headers containing the user ID and JWT token for authentication
    * purposes.
