@@ -5,24 +5,24 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 
 /**
- * Encapsulates Spring Boot configuration properties for mail services with annotations
- * from Lombok and Spring Boot.
+ * Provides a configuration container for Spring Boot application's mail settings
+ * using the Lombok library and Spring Boot's ConfigurationProperties annotation.
  *
- * - host (String): represents the hostname of a mail server.
+ * - host (String): specifies the hostname of an email server.
  *
- * - username (String): represents the user name used for mail operations.
+ * - username (String): represents a string value for the username.
  *
- * - password (String): represents a mail server's authentication password.
+ * - password (String): represents the password for mail services.
  *
- * - port (int): represents an integer value specifying the port number for mail communication.
+ * - port (int): represents an integer value for mail server's port number.
  *
- * - protocol (String): stores a string representing a mail transfer protocol.
+ * - protocol (String): represents the mail protocol to be used for sending emails.
  *
- * - debug (boolean): represents a boolean value indicating whether debugging mode
- * is enabled in the mail configuration.
+ * - debug (boolean): is a boolean property indicating whether to enable debugging
+ * mode for mail operations.
  *
- * - devMode (boolean): indicates whether the development mode is enabled for the
- * mail configuration.
+ * - devMode (boolean): represents a boolean value indicating whether debug mode is
+ * enabled for mail operations.
  */
 @Data
 @ConfigurationProperties(prefix = "spring.mail")
