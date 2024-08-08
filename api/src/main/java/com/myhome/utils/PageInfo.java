@@ -9,9 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Has an int currentPage, int pageLimit, int totalPages, and long totalElements
- * field. A method called of(Pageable pageable, Page<?> page) constructs a new PageInfo
- * object from given input.
+ * Is designed to encapsulate pagination details. It provides a constructor that takes
+ * page-related parameters and creates an instance of the class. The class is annotated
+ * with various lombok annotations for easier development.
  */
 @EqualsAndHashCode
 @ToString
@@ -24,18 +24,17 @@ public class PageInfo {
   private final long totalElements;
 
   /**
-   * Takes a `pageable` and a `page` object as input, and returns a `PageInfo` object
-   * containing various information about the page, including the current page number,
-   * size, total pages, and total elements.
-   * 
-   * @param pageable pagination information for the current page of data, providing the
-   * page number and size.
-   * 
-   * @param page current page being processed, providing information on its position
-   * within the overall sequence of pages.
-   * 
-   * @returns a `PageInfo` object containing page number, page size, total pages, and
-   * total elements.
+   * Creates a `PageInfo` object based on the given `Pageable` and `Page` objects. It
+   * retrieves the current page number, page size, total pages, and total elements from
+   * these objects and initializes the `PageInfo` with this information.
+   *
+   * @param pageable pagination information, which provides the current page number and
+   * page size for processing the data.
+   *
+   * @param page result of pagination and provides access to the total number of pages
+   * and elements, which are used to construct the `PageInfo` object.
+   *
+   * @returns a `PageInfo` object with specified parameters.
    */
   public static PageInfo of(Pageable pageable, Page<?> page) {
     return new PageInfo(
