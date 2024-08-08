@@ -25,19 +25,21 @@ import lombok.With;
 
 /**
  * Represents a data transfer object for storing and transferring amenity-related
- * data with various attributes such as id, name, description, price, and communityId.
+ * data with its corresponding attributes and annotations for easier serialization
+ * and deserialization.
  *
- * - id (Long): represents a unique identifier of type Long for an AmenityDto object.
+ * - id (Long): represents a unique identifier for an object of type AmenityDto.
  *
- * - amenityId (String): represents a string identifier for an amenity.
+ * - amenityId (String): represents a unique identifier for an amenity in this class.
  *
- * - name (String): represents a string value for an amenity's title.
+ * - name (String): in AmenityDto is a string attribute representing an amenity's name.
  *
- * - description (String): represents a string value for the AmenityDto.
+ * - description (String): is of type String in the AmenityDto class.
  *
- * - price (BigDecimal): is of type BigDecimal representing an amount of money.
+ * - price (BigDecimal): represents a numeric value with decimal places, specifically
+ * of type BigDecimal, which stores a monetary amount.
  *
- * - communityId (String): represents a string value representing a community identifier.
+ * - communityId (String): represents a string value in an AmenityDto object.
  */
 @AllArgsConstructor
 @NoArgsConstructor
