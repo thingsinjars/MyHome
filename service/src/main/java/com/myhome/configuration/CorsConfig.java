@@ -23,10 +23,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Configures cross-origin resource sharing (CORS) settings for an application. It
- * allows specific origins to make requests to the server and specifies which headers
- * and methods are allowed. The configuration is applied to all URLs ("/**") of the
- * application.
+ * Enables cross-origin resource sharing (CORS) for an application. It specifies
+ * allowed origins, methods, headers, and credentials for incoming requests.
  */
 @Configuration
 public class CorsConfig {
@@ -35,26 +33,30 @@ public class CorsConfig {
   private String[] allowedOrigins;
 
   /**
-   * Configures CORS (Cross-Origin Resource Sharing) for a web application, allowing
-   * requests from any origin, with any HTTP method and header, and exposing specific
-   * headers ("token", "userId"). The configuration enables credential storage for
-   * authenticated requests.
+   * Defines a Spring WebMvcConfigurer that enables cross-origin resource sharing (CORS)
+   * for all endpoints ("/**") by allowing specific origins, methods, and headers. It
+   * also exposes certain headers ("token", "userId") and allows credentials to be
+   * included in requests.
    *
-   * @returns a configuration for CORS (Cross-Origin Resource Sharing) mapping.
+   * @returns a configuration for enabling CORS.
    *
-   * The returned object is an instance of `WebMvcConfigurer`. The `addCorsMappings`
-   * method specifies the mapping for CORS configuration.
+   * It is an instance of `WebMvcConfigurer`, and provides mapping configurations for
+   * cross-origin requests. The `addCorsMappings` method specifies that all URLs (/***)
+   * are allowed to be accessed from any origin, using any HTTP method with any headers,
+   * exposing specific headers (token and userId), and allowing credentials.
    */
   @Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
       /**
-       * Enables cross-origin resource sharing (CORS) for all endpoints. It specifies allowed
-       * origins, methods, and headers for incoming requests, as well as exposes specific
-       * headers and allows credentials to be sent.
+       * Configures CORS (Cross-Origin Resource Sharing) for a web application. It allows
+       * requests from all origins, methods, and headers, exposes specific headers, and
+       * enables credentials for cross-origin requests. The configuration is applied to all
+       * resources using the `/**` pattern.
        *
-       * @param registry CorsRegistry that is used to configure CORS (Cross-Origin Resource
-       * Sharing) settings for the application.
+       * @param registry configuration registry for CORS (Cross-Origin Resource Sharing)
+       * settings, allowing the specification of mapping rules and configurations for
+       * cross-origin requests.
        */
       @Override
       public void addCorsMappings(CorsRegistry registry) {
