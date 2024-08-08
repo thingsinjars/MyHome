@@ -9,9 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Represents a page of data in a paged result set. It is generated based on the
- * provided Pageable and Page objects. The class provides a way to encapsulate page
- * information for display or further processing purposes.
+ * Provides a means to encapsulate and manage pagination metadata. It is designed as
+ * an immutable object with private constructor and a factory method of() for creating
+ * instances based on Spring Pageable and Page objects. The class supports value
+ * equality and provides a string representation of the page information.
  */
 @EqualsAndHashCode
 @ToString
@@ -24,18 +25,16 @@ public class PageInfo {
   private final long totalElements;
 
   /**
-   * Initializes a new instance of the `PageInfo` class with four parameters: the current
-   * page number, the page size, the total pages, and the total elements. These parameters
-   * are derived from the provided `Pageable` object and the `Page` object.
+   * Creates a new `PageInfo` object from provided parameters, including the current
+   * page number, page size, total pages, and total elements from a given `page` and `Pageable`.
    *
-   * @param pageable pagination metadata, providing information about the current page
-   * number and page size.
+   * @param pageable pagination information, providing the current page number and page
+   * size for the given query result.
    *
-   * @param page result of a pagination query, providing information about the total
-   * pages and elements available.
+   * @param page results of a query, providing information about the total number of
+   * pages and elements that are being paginated.
    *
-   * @returns a `PageInfo` object with page number, page size, total pages, and total
-   * elements.
+   * @returns a `PageInfo` object with specified parameters.
    */
   public static PageInfo of(Pageable pageable, Page<?> page) {
     return new PageInfo(
