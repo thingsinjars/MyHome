@@ -1,18 +1,18 @@
 {
   "meta": {
     "version": "1",
-    "updated_at": "2024-08-08T15:09:18.863Z",
+    "updated_at": "2024-08-08T15:16:14.537Z",
     "created_at": "2024-06-03T12:14:58.380Z",
     "pipelines": [
       "0f29b956-f71f-416c-9a05-eb324bbbcf4c",
       "05962d87-600e-49a1-8f34-76263549e54c",
-      "cd9c998d-69e0-4702-90e4-c6a87f838051"
+      "f32a40b5-c06c-452f-b4c3-8b7d6b4b29c9"
     ]
   },
   "lookup": [
     [
       "service/src/main/java/com/myhome/controllers/AuthenticationController.java",
-      "service/src/main/java/com/myhome/configuration/properties/mail/MailProperties.java"
+      "service/src/main/java/com/myhome/configuration/CorsConfig.java"
     ]
   ]
 }
