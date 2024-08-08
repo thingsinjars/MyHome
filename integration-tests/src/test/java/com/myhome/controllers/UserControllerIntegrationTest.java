@@ -21,10 +21,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Integrates with the Spring Boot application to test the sign-up feature of a user
- * controller. It sends a request to register a new user and verifies the response.
- * The test also checks if the created user is stored in the database and matches the
- * expected values.
+ * Is an integration test that verifies the successful user sign-up process in a web
+ * application using Spring Boot. The test sends a POST request to register a new
+ * user and checks if the response status code is CREATED, the user object matches
+ * the expected values, and the user ID exists in the database with corresponding values.
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
@@ -48,10 +48,9 @@ class UserControllerIntegrationTest {
   private UserRepository userRepository;
 
   /**
-   * Simulates a user sign-up process by creating a new user with a specified name,
-   * email, and password. It verifies that the response status is CREATED and checks
-   * if the returned user data matches the input values, as well as storing the data
-   * in the database.
+   * Tests the sign-up functionality by creating a new user with a given name, email,
+   * and password. It verifies that the response status is CREATED, the returned user
+   * matches the input, and the corresponding values are stored correctly in the database.
    */
   @Test
   void shouldSignUpSuccessful() {

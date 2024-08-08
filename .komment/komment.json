@@ -1,18 +1,18 @@
 {
   "meta": {
     "version": "1",
-    "updated_at": "2024-08-08T15:16:14.537Z",
+    "updated_at": "2024-08-08T17:54:56.450Z",
     "created_at": "2024-06-03T12:14:58.380Z",
     "pipelines": [
       "0f29b956-f71f-416c-9a05-eb324bbbcf4c",
       "05962d87-600e-49a1-8f34-76263549e54c",
-      "f32a40b5-c06c-452f-b4c3-8b7d6b4b29c9"
+      "d70c881c-0d93-44e9-bade-3ef51df7386d"
     ]
   },
   "lookup": [
     [
       "service/src/main/java/com/myhome/controllers/AuthenticationController.java",
-      "service/src/main/java/com/myhome/configuration/CorsConfig.java"
+      "integration-tests/src/test/java/com/myhome/controllers/UserControllerIntegrationTest.java"
     ]
   ]
 }
