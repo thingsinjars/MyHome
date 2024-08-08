@@ -34,6 +34,29 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.With;
 
+/**
+ * Represents an entity in a database with various properties and associations to
+ * other entities such as Community, CommunityHouse, and AmentiyBookingItem.
+ *
+ * - amenityId (String): is a unique String column in the Amenity entity.
+ *
+ * - name (String): represents a non-nullable string property of an Amenity entity.
+ *
+ * - description (String): represents a non-nullable and non-unique string value for
+ * an Amenity entity.
+ *
+ * - price (BigDecimal): represents a non-null and non-unique BigDecimal value
+ * representing the cost of an amenity.
+ *
+ * - community (Community): in the Amenity class represents a many-to-one relationship
+ * with a Community entity.
+ *
+ * - communityHouse (CommunityHouse): represents an association with another entity
+ * of type CommunityHouse in this Amenity class.
+ *
+ * - bookingItems (Set<AmenityBookingItem>): represents a collection of AmenityBookingItem
+ * objects, representing the booking items associated with this Amenity entity.
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

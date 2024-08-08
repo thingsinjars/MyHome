@@ -1,18 +1,18 @@
 {
   "meta": {
     "version": "1",
-    "updated_at": "2024-08-08T12:39:11.863Z",
+    "updated_at": "2024-08-08T12:42:15.863Z",
     "created_at": "2024-06-03T12:14:58.380Z",
     "pipelines": [
       "0f29b956-f71f-416c-9a05-eb324bbbcf4c",
       "05962d87-600e-49a1-8f34-76263549e54c",
-      "f1ab3cf2-d8be-42f3-8fd9-bb56bd51d8ea"
+      "7265547a-e66e-47f2-835e-7bdd15f8b090"
     ]
   },
   "lookup": [
     [
       "service/src/main/java/com/myhome/controllers/AuthenticationController.java",
-      "service/src/main/java/com/myhome/configuration/CorsConfig.java"
+      "service/src/main/java/com/myhome/domain/Amenity.java"
     ]
   ]
 }
