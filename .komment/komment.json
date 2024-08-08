@@ -1,18 +1,18 @@
 {
   "meta": {
     "version": "1",
-    "updated_at": "2024-08-08T12:59:30.830Z",
+    "updated_at": "2024-08-08T14:51:23.553Z",
     "created_at": "2024-06-03T12:14:58.380Z",
     "pipelines": [
       "0f29b956-f71f-416c-9a05-eb324bbbcf4c",
       "05962d87-600e-49a1-8f34-76263549e54c",
-      "505d60dc-e6f9-439b-a990-704488d6696f"
+      "f1c7fbcd-5cdd-4b87-828a-e7d1e713198e"
     ]
   },
   "lookup": [
     [
       "service/src/main/java/com/myhome/controllers/AuthenticationController.java",
-      "service/src/main/java/com/myhome/configuration/properties/mail/EmailTemplateLocalizationProperties.java"
+      "service/src/main/java/com/myhome/configuration/properties/mail/MailProperties.java"
     ]
   ]
 }
