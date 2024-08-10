@@ -9,10 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Represents a structured object for pagination information. It encapsulates essential
- * details such as current page number, total elements, and total pages from a Spring
- * Data Pageable and Page objects. The class provides a static method to create an
- * instance of PageInfo based on the provided pageable and page objects.
+ * Represents page information for data pagination in Spring Data. It provides a
+ * constructor to create an instance from Pageable and Page objects. The class uses
+ * Lombok annotations to enable automatic generation of equals, hashCode, and toString
+ * methods.
  */
 @EqualsAndHashCode
 @ToString
@@ -25,15 +25,16 @@ public class PageInfo {
   private final long totalElements;
 
   /**
-   * Creates a `PageInfo` object based on the given `Pageable` and `Page` parameters,
-   * populating it with information about the current page number, page size, total
-   * pages, and total elements.
+   * Constructs a `PageInfo` object, which encapsulates information about pagination,
+   * from provided `Pageable` and `Page` objects. It retrieves relevant data such as
+   * page number, page size, total pages, and total elements. The resulting `PageInfo`
+   * object is then returned.
    *
-   * @param pageable pager's state, providing information about the current page number
-   * and page size for pagination purposes.
+   * @param pageable pagination parameters, such as page number and page size, that are
+   * used to determine the current page of data being queried.
    *
-   * @param page result of a previous page request, providing access to total pages and
-   * elements.
+   * @param page result of pagination, providing information about the total number of
+   * pages and elements.
    *
    * @returns a `PageInfo` object with four attributes.
    */
