@@ -9,10 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Represents page information for data pagination in Spring Data. It provides a
- * constructor to create an instance from Pageable and Page objects. The class uses
- * Lombok annotations to enable automatic generation of equals, hashCode, and toString
- * methods.
+ * Represents an immutable object encapsulating pagination metadata. It is initialized
+ * using static factory method of() that takes Pageable and Page objects as parameters.
+ * This class is designed to provide a way to work with pagination information in a
+ * concise manner.
  */
 @EqualsAndHashCode
 @ToString
@@ -25,18 +25,17 @@ public class PageInfo {
   private final long totalElements;
 
   /**
-   * Constructs a `PageInfo` object, which encapsulates information about pagination,
-   * from provided `Pageable` and `Page` objects. It retrieves relevant data such as
-   * page number, page size, total pages, and total elements. The resulting `PageInfo`
-   * object is then returned.
-   *
-   * @param pageable pagination parameters, such as page number and page size, that are
-   * used to determine the current page of data being queried.
-   *
-   * @param page result of pagination, providing information about the total number of
-   * pages and elements.
-   *
-   * @returns a `PageInfo` object with four attributes.
+   * Creates a new instance of the `PageInfo` class with four parameters: the current
+   * page number, page size, total pages, and total elements, all obtained from the
+   * provided `pageable` object and `page`.
+   * 
+   * @param pageable pagination information for retrieving data from a database or a
+   * data storage system, providing the current page number and page size.
+   * 
+   * @param page result of a pagination query, providing information about the total
+   * number of pages and elements.
+   * 
+   * @returns an instance of `PageInfo` with four attributes.
    */
   public static PageInfo of(Pageable pageable, Page<?> page) {
     return new PageInfo(
