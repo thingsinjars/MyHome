@@ -23,6 +23,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+/**
+ * Extends the Spring Data JPA JpaRepository and provides methods to retrieve Amenity
+ * entities by ID, optionally including associated community data.
+ */
 public interface AmenityRepository extends JpaRepository<Amenity, Long> {
 
   @Query("from Amenity amenity where amenity.amenityId = :amenityId")

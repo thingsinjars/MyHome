@@ -48,6 +48,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+/**
+ * This class contains unit tests for the AmenitySDJpaService class, which appears
+ * to be a data access object for managing amenities in a community. The tests cover
+ * various scenarios, including deleting amenities, listing amenities, adding amenities
+ * to communities, and updating amenities.
+ */
 class AmenitySDJpaServiceTest {
 
   private static final String TEST_AMENITY_NAME = "test-amenity-name";
@@ -68,11 +74,20 @@ class AmenitySDJpaServiceTest {
   @InjectMocks
   private AmenitySDJpaService amenitySDJpaService;
 
+  /**
+   * Initializes Mockito annotations, allowing for the creation of mock objects in test
+   * classes.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * Tests the deletion of an amenity from the database. It simulates a test amenity's
+   * existence, calls the `deleteAmenity` service method, and verifies that the amenity
+   * is successfully deleted and the repository methods are called as expected.
+   */
   @Test
   void deleteAmenity() {
     // given
@@ -91,6 +106,12 @@ class AmenitySDJpaServiceTest {
     verify(amenityRepository).delete(testAmenity);
   }
 
+  /**
+   * Tests the deletion of an amenity that does not exist in the database. It verifies
+   * that the repository is queried to check if the amenity exists, but the deletion
+   * is not performed. The test expects a return value of false indicating the amenity
+   * was not deleted.
+   */
   @Test
   void deleteAmenityNotExists() {
     // given
@@ -106,6 +127,11 @@ class AmenitySDJpaServiceTest {
     verify(amenityRepository, never()).delete(any());
   }
 
+  /**
+   * Retrieves a set of amenities for a specified community ID from the database and
+   * returns them. It uses a mock repository to simulate a database query. The retrieved
+   * amenities are compared to the expected set for verification.
+   */
   @Test
   void listAllAmenities() {
     // given
@@ -124,6 +150,11 @@ class AmenitySDJpaServiceTest {
     verify(communityRepository).findByCommunityIdWithAmenities(TEST_COMMUNITY_ID);
   }
 
+  /**
+   * Tests the `listAllAmenities` method when no amenities exist for a given community
+   * ID. It verifies that the method returns an empty set and that the `communityRepository`
+   * is called with the correct method and parameters.
+   */
   @Test
   void listAllAmenitiesNotExists() {
     // given
@@ -138,6 +169,11 @@ class AmenitySDJpaServiceTest {
     verify(communityRepository).findByCommunityIdWithAmenities(TEST_COMMUNITY_ID);
   }
 
+  /**
+   * Tests the creation of amenities for an existing community. It verifies that a
+   * community ID is associated with an amenity, and the amenity is successfully saved
+   * to the repository.
+   */
   @Test
   void shouldAddAmenityToExistingCommunity() {
     // given
@@ -177,6 +213,11 @@ class AmenitySDJpaServiceTest {
     verify(amenityApiMapper).amenityToAmenityDto(amenityWithCommunity);
   }
 
+  /**
+   * Tests the creation of amenities for a non-existent community by verifying that no
+   * result is returned when attempting to add amenities to a community that does not
+   * exist.
+   */
   @Test
   void shouldFailOnAddAmenityToNotExistingCommunity() {
     // given
@@ -202,6 +243,11 @@ class AmenitySDJpaServiceTest {
     verifyNoInteractions(amenityRepository);
   }
 
+  /**
+   * Tests the update functionality of the `amenitySDJpaService` by updating a community
+   * amenity with a given ID, verifying the repository calls and the result of the
+   * update operation.
+   */
   @Test
   void shouldUpdateCommunityAmenitySuccessfully() {
     // given
@@ -228,6 +274,11 @@ class AmenitySDJpaServiceTest {
     verify(amenityRepository).save(updatedAmenity);
   }
 
+  /**
+   * Tests the functionality of updating a community amenity when the amenity does not
+   * exist. It checks that the update is unsuccessful and that the amenity repository
+   * is not called to save the updated amenity.
+   */
   @Test
   void shouldNotUpdateCommunityAmenitySuccessfullyIfAmenityNotExists() {
     // given
@@ -243,6 +294,11 @@ class AmenitySDJpaServiceTest {
     verifyNoInteractions(communityRepository);
   }
 
+  /**
+   * Tests the functionality of updating a community amenity when saving fails. It
+   * checks if the update operation returns false when the amenity repository fails to
+   * save the updated amenity.
+   */
   @Test
   void shouldNotUpdateCommunityAmenitySuccessfullyIfSavingFails() {
     // given
@@ -269,6 +325,10 @@ class AmenitySDJpaServiceTest {
     verify(amenityRepository).save(updatedAmenity);
   }
 
+  /**
+   * Tests the `updateAmenity` method's behavior when a community does not exist. It
+   * verifies that the method returns `false` and only interacts with the `amenityRepository`.
+   */
   @Test
   void shouldNotUpdateAmenityIfCommunityDoesNotExist() {
     // given
@@ -291,6 +351,17 @@ class AmenitySDJpaServiceTest {
     verifyNoMoreInteractions(amenityRepository);
   }
 
+  /**
+   * Creates and returns an instance of `AmenityDto` populated with predefined values.
+   * The instance is initialized with a specified ID and various attributes, including
+   * name, description, price, and community ID.
+   *
+   * @returns an `AmenityDto` object with specified id, amenityId, name, description,
+   * price, and communityId.
+   *
+   * The output is an instance of `AmenityDto` with properties id, amenityId, name,
+   * description, price, and communityId.
+   */
   private AmenityDto getTestAmenityDto() {
     Long TEST_AMENITY_ENTITY_ID = 1L;
 
@@ -303,6 +374,14 @@ class AmenitySDJpaServiceTest {
         .communityId(TEST_COMMUNITY_ID);
   }
 
+  /**
+   * Constructs an `Amenity` object from a `communityAmenityDto` object, copying its
+   * details and associating it with a test community. It returns this newly constructed
+   * `Amenity` object. The function relies on other helper functions to obtain a community
+   * and an amenity DTO.
+   *
+   * @returns an `Amenity` object with updated properties from `communityAmenityDto`.
+   */
   private Amenity getUpdatedCommunityAmenity() {
     AmenityDto communityAmenityDto = getTestAmenityDto();
     return new Amenity()

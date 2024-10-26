@@ -20,6 +20,9 @@ import com.myhome.domain.HouseMemberDocument;
 import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Provides a contract for managing house member documents, including CRUD operations.
+ */
 public interface HouseMemberDocumentService {
 
   boolean deleteHouseMemberDocument(String memberId);

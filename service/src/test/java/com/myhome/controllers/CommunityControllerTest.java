@@ -59,6 +59,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
+/**
+ * Provides
+ * ````
+ * Create a
+ */
 class CommunityControllerTest {
   private static final String COMMUNITY_ADMIN_ID = "1";
   private static final String COMMUNITY_ADMIN_NAME = "Test Name";
@@ -79,11 +84,28 @@ class CommunityControllerTest {
   @InjectMocks
   private CommunityController communityController;
 
+  /**
+   * Is called before each test, initializing Mockito annotations to mock objects.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * Creates a test CommunityDto object with a predefined community ID, name, district,
+   * and a set of community admins. The community admin is a UserDto object with a
+   * predefined user ID, name, email, password, and a set of community IDs.
+   *
+   * @returns a `CommunityDto` object with a set of admins containing a single `UserDto`.
+   *
+   * The returned output is a `CommunityDto` object with the following properties:
+   * - `communityId`: a unique identifier for the community, set to `COMMUNITY_ID`.
+   * - `name`: the name of the community, set to `COMMUNITY_NAME`.
+   * - `district`: the district of the community, set to `COMMUNITY_DISTRICT`.
+   * - `admins`: a set of community administrators, containing a single `UserDto` with
+   * `userId` `COMMUNITY_ADMIN_ID`.
+   */
   private CommunityDto createTestCommunityDto() {
     Set<UserDto> communityAdminDtos = new HashSet<>();
     UserDto userDto = UserDto.builder()
@@ -104,11 +126,31 @@ class CommunityControllerTest {
     return communityDto;
   }
 
+  /**
+   * Creates a new instance of `CommunityHouse` with the specified `community`, name,
+   * ID, empty sets of members and visitors. The function returns the created
+   * `CommunityHouse` object.
+   *
+   * @param community parent community to which the created `CommunityHouse` belongs.
+   *
+   * @returns a new `CommunityHouse` object with specified properties and empty set collections.
+   */
   private CommunityHouse createTestCommunityHouse(Community community) {
     return new CommunityHouse(community, COMMUNITY_HOUSE_NAME, COMMUNITY_HOUSE_ID, new HashSet<>(),
         new HashSet<>());
   }
 
+  /**
+   * Creates a test community with specified attributes, adds an administrator user to
+   * the community, adds a test community house to the community, and links the community
+   * to the administrator.
+   *
+   * @returns a fully initialized Community object with associated User and House entities.
+   *
+   * The returned output is a Community object with the following attributes:
+   * a unique ID, a name, a district, a set of houses, a set of users (admins), a set
+   * of users (residents), and a set of amenities.
+   */
   private Community createTestCommunity() {
     Community community =
         new Community(new HashSet<>(), new HashSet<>(), COMMUNITY_NAME, COMMUNITY_ID,
@@ -122,6 +164,11 @@ class CommunityControllerTest {
     return community;
   }
 
+  /**
+   * Tests the creation of a community by verifying a successful HTTP response and the
+   * correct mapping of data between different layers. It mocks the community service
+   * and mapper to isolate the community controller's functionality.
+   */
   @Test
   void shouldCreateCommunitySuccessfully() {
     // given
@@ -154,6 +201,11 @@ class CommunityControllerTest {
     verify(communityService).createCommunity(communityDto);
   }
 
+  /**
+   * Tests the listing of all communities by verifying that the community controller
+   * returns a successful response with the expected community details when the community
+   * service and mapper functions are called correctly.
+   */
   @Test
   void shouldListAllCommunitiesSuccessfully() {
     // given
@@ -190,6 +242,11 @@ class CommunityControllerTest {
     verify(communityService).listAll(pageable);
   }
 
+  /**
+   * Tests the retrieval of community details by ID. It simulates a successful response
+   * from the community service and API mapper, then verifies that the response entity
+   * status and body match the expected values.
+   */
   @Test
   void shouldGetCommunityDetailsSuccessfully() {
     // given
@@ -224,6 +281,12 @@ class CommunityControllerTest {
     verify(communityApiMapper).communityToRestApiResponseCommunity(community);
   }
 
+  /**
+   * Tests the functionality of listing community details when the community with the
+   * specified ID is not found. It verifies that a 404 Not Found response is returned
+   * with an empty body and that the community service is called to retrieve the community
+   * details.
+   */
   @Test
   void shouldGetNotFoundListCommunityDetailsSuccess() {
     // given
@@ -241,6 +304,11 @@ class CommunityControllerTest {
     verifyNoInteractions(communityApiMapper);
   }
 
+  /**
+   * Tests the functionality of listing community admins by verifying the successful
+   * response from the `communityController` when calling the `listCommunityAdmins` method.
+   * It checks for a valid HTTP status code and the correctness of the response body.
+   */
   @Test
   void shouldListCommunityAdminsSuccess() {
     // given
@@ -278,6 +346,11 @@ class CommunityControllerTest {
     verify(communityService).findCommunityAdminsById(COMMUNITY_ID, pageable);
   }
 
+  /**
+   * Tests the functionality of listing community admins when no admins are found. It
+   * verifies that a 404 status code is returned and no admin details are present in
+   * the response.
+   */
   @Test
   void shouldReturnNoAdminDetailsNotFoundSuccess() {
     // given
@@ -297,6 +370,11 @@ class CommunityControllerTest {
     verifyNoInteractions(communityApiMapper);
   }
 
+  /**
+   * Tests the addition of community administrators. It creates a community and an add
+   * request, adds existing community administrators to the request, and then simulates
+   * a successful addition of administrators to the community via the community service.
+   */
   @Test
   void shouldAddCommunityAdminSuccess() {
     // given
@@ -323,6 +401,11 @@ class CommunityControllerTest {
     verify(communityService).addAdminsToCommunity(COMMUNITY_ID, adminIds);
   }
 
+  /**
+   * Tests a scenario where an attempt is made to add admin users to a community that
+   * does not exist. It verifies that the community controller returns a 404 status
+   * code and an empty response body in this case.
+   */
   @Test
   void shouldNotAddAdminToCommunityNotFoundSuccessfully() {
     // given
@@ -348,6 +431,11 @@ class CommunityControllerTest {
     verify(communityService).addAdminsToCommunity(COMMUNITY_ID, adminIds);
   }
 
+  /**
+   * Tests the successful listing of community houses by verifying the response status
+   * code and body, as well as the calls to the `communityService` and `communityApiMapper`
+   * methods.
+   */
   @Test
   void shouldListCommunityHousesSuccess() {
     Community community = createTestCommunity();
@@ -378,6 +466,11 @@ class CommunityControllerTest {
     verify(communityApiMapper).communityHouseSetToRestApiResponseCommunityHouseSet(housesSet);
   }
 
+  /**
+   * Tests the scenario where a community with the given ID does not exist, and the
+   * controller returns a 404 status code with no response body. The service is called
+   * to find community houses, and the mapper is not interacted with.
+   */
   @Test
   void testListCommunityHousesCommunityNotExistSuccess() {
     // given
@@ -396,6 +489,11 @@ class CommunityControllerTest {
     verifyNoInteractions(communityApiMapper);
   }
 
+  /**
+   * Tests the successful addition of community houses to a community. It creates a
+   * request to add houses, mocks API responses, and verifies that the houses are added
+   * correctly, returning a 201 status code and the expected response.
+   */
   @Test
   void shouldAddCommunityHouseSuccessfully() {
     // given
@@ -430,6 +528,10 @@ class CommunityControllerTest {
     verify(communityService).addHousesToCommunity(COMMUNITY_ID, communityHouses);
   }
 
+  /**
+   * Tests that a bad request is returned when an empty `AddCommunityHouseRequest` is
+   * sent to the `addCommunityHouses` method.
+   */
   @Test
   void shouldThrowBadRequestWithEmptyAddHouseRequest() {
     // given
@@ -451,6 +553,10 @@ class CommunityControllerTest {
     verify(communityService).addHousesToCommunity(COMMUNITY_ID, new HashSet<>());
   }
 
+  /**
+   * Tests the removal of a community house by simulating a successful removal and
+   * verifying the response status and service interactions.
+   */
   @Test
   void shouldRemoveCommunityHouseSuccessfully() {
     // given
@@ -472,6 +578,11 @@ class CommunityControllerTest {
     verify(communityService).getCommunityDetailsById(COMMUNITY_ID);
   }
 
+  /**
+   * Tests the removal of a community house when the community is not found. It expects
+   * a 404 status code if the community is not found, and verifies that the community
+   * service is called with the correct parameters.
+   */
   @Test
   void shouldNotRemoveCommunityHouseIfNotFoundSuccessfully() {
     // given
@@ -491,6 +602,11 @@ class CommunityControllerTest {
     verify(communityService).removeHouseFromCommunityByHouseId(community, COMMUNITY_HOUSE_ID);
   }
 
+  /**
+   * Tests the removal of a community house when the community is not found.
+   * It verifies that a 404 status code is returned and the community service is called
+   * to retrieve the community details but not to remove the house.
+   */
   @Test
   void shouldNotRemoveCommunityHouseIfCommunityNotFound() {
     //given
@@ -510,6 +626,10 @@ class CommunityControllerTest {
         COMMUNITY_HOUSE_ID);
   }
 
+  /**
+   * Tests the removal of an admin from a community by verifying that the service returns
+   * a successful response and the community service method is called correctly.
+   */
   @Test
   void shouldRemoveAdminFromCommunitySuccessfully() {
     // given
@@ -525,6 +645,11 @@ class CommunityControllerTest {
     verify(communityService).removeAdminFromCommunity(COMMUNITY_ID, COMMUNITY_ADMIN_ID);
   }
 
+  /**
+   * Tests the removal of an administrator from a community. It verifies that if the
+   * administrator is not found, the community service is still called and a 404 status
+   * code is returned. The test is successful if the expected behavior is observed.
+   */
   @Test
   void shouldNotRemoveAdminIfNotFoundSuccessfully() {
     // given
@@ -540,6 +665,11 @@ class CommunityControllerTest {
     verify(communityService).removeAdminFromCommunity(COMMUNITY_ID, COMMUNITY_ADMIN_ID);
   }
 
+  /**
+   * Tests the deletion of a community by verifying that a successful response is
+   * returned when calling the `deleteCommunity` method of the `communityController`.
+   * The community service is also mocked to return true, indicating a successful deletion.
+   */
   @Test
   void shouldDeleteCommunitySuccessfully() {
     // given
@@ -555,6 +685,11 @@ class CommunityControllerTest {
     verify(communityService).deleteCommunity(COMMUNITY_ID);
   }
 
+  /**
+   * Tests the deletion of a non-existent community. It verifies that a `NOT_FOUND`
+   * status is returned when attempting to delete a community that does not exist. The
+   * `communityService` is checked to have been called with the correct community ID.
+   */
   @Test
   void shouldNotDeleteCommunityNotFoundSuccessfully() {
     // given
@@ -570,6 +705,13 @@ class CommunityControllerTest {
     verify(communityService).deleteCommunity(COMMUNITY_ID);
   }
 
+  /**
+   * Creates a mock instance of `CommunityHouse` with specified name, ID, and an empty
+   * set of house members.
+   *
+   * @returns an instance of CommunityHouse with specified name, ID, and an empty set
+   * of members.
+   */
   private CommunityHouse getMockCommunityHouse() {
     CommunityHouse communityHouse = new CommunityHouse();
     communityHouse.setName(COMMUNITY_HOUSE_NAME);
@@ -579,6 +721,21 @@ class CommunityControllerTest {
     return communityHouse;
   }
 
+  /**
+   * Creates a mock community object with a specified set of admins, and adds an admin
+   * user to the community and the community to the admin's list of communities.
+   *
+   * @param admins set of administrators for the community being created.
+   *
+   * Are destructured into a Set of User objects.
+   *
+   * @returns a Community object with specified properties and associations.
+   *
+   * The output is a `Community` object with the following attributes:
+   * - A set of administrators, containing at least one admin user with specific details.
+   * - An empty set of users.
+   * - A specified name, ID, district, and a set of community houses.
+   */
   private Community getMockCommunity(Set<User> admins) {
     Community community =
         new Community(admins, new HashSet<>(), COMMUNITY_NAME, COMMUNITY_ID,

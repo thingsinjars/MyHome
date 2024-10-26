@@ -49,6 +49,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Contains unit tests for the HouseController class, verifying its behavior under
+ * various scenarios.
+ */
 class HouseControllerTest {
 
   private final String TEST_HOUSE_ID = "test-house-id";
@@ -67,11 +71,21 @@ class HouseControllerTest {
   @InjectMocks
   private HouseController houseController;
 
+  /**
+   * Initializes Mockito annotations, allowing for the use of Mockito's mocking
+   * functionality within the test class. This enables the creation of mock objects for
+   * dependencies, facilitating unit testing. The `MockitoAnnotations.initMocks(this)`
+   * line is the key action performed by the function.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * Tests the retrieval of all houses from the database by verifying the response
+   * status and body from the `houseController` when calling the `listAllHouses` method.
+   */
   @Test
   void listAllHouses() {
     // given
@@ -95,6 +109,10 @@ class HouseControllerTest {
     assertEquals(expectedResponseBody, response.getBody());
   }
 
+  /**
+   * Tests the retrieval of house details by ID from a controller, verifying that the
+   * correct response is returned and that the service and mapper are called as expected.
+   */
   @Test
   void getHouseDetails() {
     // given
@@ -123,6 +141,11 @@ class HouseControllerTest {
     verify(houseApiMapper).communityHouseToRestApiResponseCommunityHouse(testCommunityHouse);
   }
 
+  /**
+   * Tests the behavior of a controller when a house with a specified ID does not exist
+   * in the system. It verifies that a 404 status code is returned and that no response
+   * body is present.
+   */
   @Test
   void getHouseDetailsNotExists() {
     // given
@@ -143,6 +166,11 @@ class HouseControllerTest {
         testCommunityHouse);
   }
 
+  /**
+   * Tests the retrieval of a house's members by testing the `houseController` method.
+   * It verifies that the method returns a successful response with the expected list
+   * of house members.
+   */
   @Test
   void listAllMembersOfHouse() {
     // given
@@ -174,6 +202,11 @@ class HouseControllerTest {
         new HashSet<>(testHouseMembers));
   }
 
+  /**
+   * Tests the behavior of the `listAllMembersOfHouse` controller method when a house
+   * with the specified ID does not exist. It verifies that a 404 status code is returned
+   * and no response body is present.
+   */
   @Test
   void listAllMembersOfHouseNotExists() {
     // given
@@ -191,6 +224,11 @@ class HouseControllerTest {
     verify(houseMemberMapper, never()).houseMemberSetToRestApiResponseHouseMemberSet(anySet());
   }
 
+  /**
+   * Adds new members to a house by sending an `AddHouseMemberRequest` to the
+   * `houseController`, which then calls the `houseService` to add the members and
+   * returns an `AddHouseMemberResponse` with the added members.
+   */
   @Test
   void addHouseMembers() {
     // given
@@ -231,6 +269,11 @@ class HouseControllerTest {
     verify(houseMemberMapper).houseMemberSetToRestApiResponseAddHouseMemberSet(testMembers);
   }
 
+  /**
+   * Tests the scenario where no house members are added to a house. It verifies that
+   * a NOT_FOUND response is returned and that the house service is called with the
+   * test members.
+   */
   @Test
   void addHouseMembersNoMembersAdded() {
     // given
@@ -271,6 +314,11 @@ class HouseControllerTest {
         testMembers);
   }
 
+  /**
+   * Tests the deletion of a house member by calling the `deleteHouseMember` controller
+   * method with given test IDs, verifying a successful response with a 204 status code
+   * and no response body.
+   */
   @Test
   void deleteHouseMemberSuccess() {
     // given
@@ -285,6 +333,10 @@ class HouseControllerTest {
     assertNull(response.getBody());
   }
 
+  /**
+   * Tests the deletion of a house member when the deletion fails, verifying that a 404
+   * status code and no response body are returned.
+   */
   @Test
   void deleteHouseMemberFailure() {
     // given

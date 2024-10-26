@@ -16,6 +16,11 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Enforces authorization for community administrators by checking if the authenticated
+ * user is an admin of the community being accessed. It filters incoming requests
+ * based on a specific URL pattern and verifies user membership in the community.
+ */
 public class CommunityAuthorizationFilter extends BasicAuthenticationFilter {
     private final CommunityService communityService;
     private final String uuidPattern = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
@@ -28,6 +33,28 @@ public class CommunityAuthorizationFilter extends BasicAuthenticationFilter {
         this.communityService = communityService;
     }
 
+    /**
+     * Checks if the current request matches a predefined admin pattern and if the user
+     * is not a community admin. If the request is an admin request but the user is not
+     * authorized, it sets the response status to unauthorized. Otherwise, it proceeds
+     * with the filter chain.
+     *
+     * @param request HTTP request being processed by the filter.
+     *
+     * Contain a `getRequestURI` method returning the path part of the request URL.
+     * Contain a `find` method for the `addAdminRequestPattern` matcher.
+     *
+     * @param response HttpServletResponse object that is used to set the HTTP status
+     * code to SC_UNAUTHORIZED when the user does not have admin privileges.
+     *
+     * Set, send, and reset the HTTP status code of the response.
+     *
+     * @param chain sequence of filters in the filter chain, allowing the current filter
+     * to pass control to the next filter in the chain.
+     *
+     * Pass `chain` as an object.
+     * The `chain` object has a `doFilter` method, which is the core of the filter chain.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
@@ -42,6 +69,22 @@ public class CommunityAuthorizationFilter extends BasicAuthenticationFilter {
         super.doFilterInternal(request, response, chain);
     }
 
+    /**
+     * Checks if a user is an admin of a community based on the provided community ID and
+     * the user's ID, using authentication information from the SecurityContextHolder.
+     * It returns true if the user is found to be an admin, false otherwise.
+     *
+     * @param request HTTP request object, from which the community ID is extracted by
+     * parsing the request URI.
+     *
+     * Extract the `request` object properties:
+     * - `HttpServletRequest` is the class type.
+     * - `request` has properties such as `getRequestURI`, `getContextPath`, `getHeader`,
+     * `getParameter`, etc.
+     * - `requestURI` is a string containing the URL path of the current request.
+     *
+     * @returns a boolean indicating whether the user is a community admin.
+     */
     private boolean isUserCommunityAdmin(HttpServletRequest request) {
         String userId = (String) SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal();

@@ -33,6 +33,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Provides unit tests for the HouseMemberDocumentController class using Mockito for
+ * mocking dependencies and JUnit for test execution.
+ */
 class HouseMemberDocumentTest {
 
   private static final String MEMBER_ID = "test-member-id";
@@ -48,11 +52,19 @@ class HouseMemberDocumentTest {
   @InjectMocks
   private HouseMemberDocumentController houseMemberDocumentController;
 
+  /**
+   * Initializes Mockito annotations within the test class, enabling mock object creation
+   * and setup for subsequent test methods.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * Tests the retrieval of a house member document by ID, verifying it returns a
+   * successful HTTP response with the document content and image/jpeg content type.
+   */
   @Test
   void shouldGetDocumentSuccess() {
     // given
@@ -68,6 +80,11 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).findHouseMemberDocument(MEMBER_ID);
   }
 
+  /**
+   * Tests a controller method that retrieves a house member document by ID. It verifies
+   * that when the document service returns an empty Optional, the controller returns
+   * a 404 status code.
+   */
   @Test
   void shouldGetDocumentFailure() {
     // given
@@ -81,6 +98,11 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).findHouseMemberDocument(MEMBER_ID);
   }
 
+  /**
+   * Tests the uploading of a house member document. It simulates a successful creation
+   * of a document, verifies the response status as NO_CONTENT, and checks if the service
+   * method was called.
+   */
   @Test
   void shouldPostDocumentSuccess() {
     // given
@@ -94,6 +116,11 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).createHouseMemberDocument(MULTIPART_FILE, MEMBER_ID);
   }
 
+  /**
+   * Tests a controller's response to a missing document. It simulates a service returning
+   * an empty optional, then verifies the controller returns a 404 status code and calls
+   * the service as expected.
+   */
   @Test
   void shouldPostDocumentFailureNotFound() {
     // given
@@ -107,6 +134,11 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).createHouseMemberDocument(MULTIPART_FILE, MEMBER_ID);
   }
 
+  /**
+   * Tests the functionality of updating a house member document. It verifies that a
+   * successful update returns a no-content HTTP status and that the service method is
+   * called with the correct parameters.
+   */
   @Test
   void shouldPutDocumentSuccess() {
     // given
@@ -120,6 +152,12 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).updateHouseMemberDocument(MULTIPART_FILE, MEMBER_ID);
   }
 
+  /**
+   * Tests the `updateHouseMemberDocument` controller method's response when the
+   * `houseMemberDocumentService` returns an empty Optional, indicating a document not
+   * found. The test verifies a 404 status code is returned and the service method is
+   * called correctly.
+   */
   @Test
   void shouldPutDocumentFailureNotFound() {
     // given
@@ -133,6 +171,11 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).updateHouseMemberDocument(MULTIPART_FILE, MEMBER_ID);
   }
 
+  /**
+   * Tests the deletion of a house member document. It simulates a successful deletion
+   * by returning true from the service and verifies that the controller returns a 204
+   * No Content status code and calls the service method correctly.
+   */
   @Test
   void shouldDeleteDocumentSuccess() {
     // given
@@ -146,6 +189,13 @@ class HouseMemberDocumentTest {
     verify(houseMemberDocumentService).deleteHouseMemberDocument(MEMBER_ID);
   }
 
+  /**
+   * Tests the deletion of a house member document when it is not found.
+   * It calls the `deleteHouseMemberDocument` method in the controller with a specific
+   * ID.
+   * The test verifies that the service is called with the correct ID and that a NOT_FOUND
+   * response is returned.
+   */
   @Test
   void shouldDeleteDocumentFailureNotFound() {
     // given

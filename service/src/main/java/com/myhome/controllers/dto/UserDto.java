@@ -21,6 +21,26 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Represents a data transfer object for user information, encapsulating relevant
+ * attributes and properties in a structured format.
+ *
+ * - id (Long): is a Long representing a unique identifier.
+ *
+ * - userId (String): stores a unique identifier for a user.
+ *
+ * - name (String): Stores a user's name.
+ *
+ * - email (String): stores a user's email address.
+ *
+ * - password (String): stores a user password.
+ *
+ * - encryptedPassword (String): stores an encrypted version of the password.
+ *
+ * - communityIds (Set<String>): contains a set of community IDs.
+ *
+ * - emailConfirmed (boolean): indicates whether the user's email address has been confirmed.
+ */
 @Builder
 @Getter
 @Setter

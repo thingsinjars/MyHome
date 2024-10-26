@@ -28,6 +28,11 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 
+/**
+ * Provides unit tests for the MailSDJpaService class, covering exception scenarios
+ * for sending password recovery, password change, email confirmation, and account
+ * creation emails.
+ */
 class MailSDJpaServiceTest {
 
   @Mock
@@ -42,6 +47,11 @@ class MailSDJpaServiceTest {
 
   private MailProperties mailProperties = TestUtils.MailPropertiesHelper.getTestMailProperties();
 
+  /**
+   * Initializes the environment for testing by setting up a mock request, setting the
+   * request attributes, and injecting dependencies into the `MailSDJpaService` instance.
+   * It uses Mockito to set up mocks and a mock request.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
@@ -54,6 +64,10 @@ class MailSDJpaServiceTest {
     mailSDJpaService = new MailSDJpaService(emailTemplateEngine, mailSender, messageSource, mailProperties);
   }
 
+  /**
+   * Tests the functionality of sending a password recovery code via email when an
+   * exception occurs during mail sending.
+   */
   @Test
   void sendPasswordRecoverCodeMailException() {
     // given
@@ -72,6 +86,11 @@ class MailSDJpaServiceTest {
     assertFalse(mailSent);
   }
 
+  /**
+   * Tests the functionality of sending a password successfully changed email when an
+   * exception occurs during sending. It verifies that the `mailSent` flag is set to
+   * `false` when a `MailSendException` is thrown.
+   */
   @Test
   void sendPasswordSuccessfullyChangedMailException() {
     // given
@@ -90,6 +109,11 @@ class MailSDJpaServiceTest {
     assertFalse(mailSent);
   }
 
+  /**
+   * Tests the functionality of sending an account confirmation email when an exception
+   * occurs during mail sending. It verifies that the `mailSent` flag is set to `false`
+   * when a `MailSendException` is thrown.
+   */
   @Test
   void sendEmailConfirmedMailException() {
     // given
@@ -108,6 +132,11 @@ class MailSDJpaServiceTest {
     assertFalse(mailSent);
   }
 
+  /**
+   * Tests the functionality of sending an account created email when a mail send
+   * exception occurs. It checks if the mail is not sent when an exception is thrown
+   * by the mail sender.
+   */
   @Test
   void sendEmailCreatedMailException() {
     // given
@@ -128,6 +157,12 @@ class MailSDJpaServiceTest {
     assertFalse(mailSent);
   }
 
+  /**
+   * Creates a new instance of the `User` class and initializes it with an email address
+   * of "test-email", then returns the created `User` object.
+   *
+   * @returns an instance of the `User` class with an email address of "test-email".
+   */
   private User getTestUser() {
     User user = new User();
     user.setEmail("test-email");

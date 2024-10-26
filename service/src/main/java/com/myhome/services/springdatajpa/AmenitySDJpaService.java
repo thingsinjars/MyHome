@@ -32,6 +32,9 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Provides data access and manipulation operations for amenities.
+ */
 @Service
 @RequiredArgsConstructor
 public class AmenitySDJpaService implements AmenityService {
@@ -41,6 +44,22 @@ public class AmenitySDJpaService implements AmenityService {
   private final CommunityService communityService;
   private final AmenityApiMapper amenityApiMapper;
 
+  /**
+   * Creates a list of amenities for a community, persists them to the database, and
+   * returns the created amenities as a list of Dtos. It requires a community ID and a
+   * set of amenity Dtos.
+   *
+   * @param amenities set of amenity objects to be created and associated with a community.
+   *
+   * Contain a set of `AmenityDto` objects.
+   *
+   * @param communityId identifier used to retrieve community details from the
+   * `communityService` and associate amenities with the corresponding community.
+   *
+   * @returns an Optional containing a list of created AmenitiesDto objects.
+   *
+   * The returned output is an `Optional` containing a `List` of `AmenityDto` objects.
+   */
   @Override
   public Optional<List<AmenityDto>> createAmenities(Set<AmenityDto> amenities, String communityId) {
     final Optional<Community> community = communityService.getCommunityDetailsById(communityId);
@@ -61,11 +80,31 @@ public class AmenitySDJpaService implements AmenityService {
     return Optional.of(createdAmenities);
   }
 
+  /**
+   * Retrieves the details of an amenity based on a given `amenityId` and returns the
+   * result as an `Optional` object. The actual retrieval is delegated to the
+   * `amenityRepository`. The function is marked as `@Override`, indicating it overrides
+   * a method in a superclass.
+   *
+   * @param amenityId identifier of the amenity for which details are to be retrieved.
+   *
+   * @returns an Optional instance containing an Amenity object if found, or an empty
+   * Optional otherwise.
+   */
   @Override
   public Optional<Amenity> getAmenityDetails(String amenityId) {
     return amenityRepository.findByAmenityId(amenityId);
   }
 
+  /**
+   * Deletes an amenity from the database by its ID and removes it from the associated
+   * community's amenities list. It returns true if the deletion is successful, or false
+   * otherwise. The deletion operation is performed on the database using the `amenityRepository`.
+   *
+   * @param amenityId identifier of the amenity to be deleted from the database.
+   *
+   * @returns either `true` if the deletion is successful or `false` otherwise.
+   */
   @Override
   public boolean deleteAmenity(String amenityId) {
     return amenityRepository.findByAmenityIdWithCommunity(amenityId)
@@ -78,6 +117,18 @@ public class AmenitySDJpaService implements AmenityService {
         .orElse(false);
   }
 
+  /**
+   * Returns a set of amenities associated with a community identified by the given
+   * community ID. If no community is found, an empty set is returned. The amenities
+   * are retrieved from a repository using a method that fetches communities with their
+   * associated amenities.
+   *
+   * @param communityId identifier for a specific community, used to retrieve its
+   * associated amenities.
+   *
+   * @returns a set of amenities associated with a community, or an empty set if none
+   * exist.
+   */
   @Override
   public Set<Amenity> listAllAmenities(String communityId) {
     return communityRepository.findByCommunityIdWithAmenities(communityId)
@@ -85,6 +136,19 @@ public class AmenitySDJpaService implements AmenityService {
         .orElse(new HashSet<>());
   }
 
+  /**
+   * Updates an existing amenity in the database with new information from the provided
+   * `AmenityDto` object and saves the changes. It retrieves the community associated
+   * with the amenity and the community's amenities before updating the amenity.
+   *
+   * @param updatedAmenity amenity details to be updated, containing the community ID,
+   * amenity ID, name, price, and description.
+   *
+   * Destructure `updatedAmenity` to include `name`, `price`, `description`, and
+   * `communityId`, and `amenityId`.
+   *
+   * @returns a boolean value indicating whether the amenity was successfully updated.
+   */
   @Override
   public boolean updateAmenity(AmenityDto updatedAmenity) {
     String amenityId = updatedAmenity.getAmenityId();

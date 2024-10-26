@@ -62,6 +62,11 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
+/**
+ * Defines payment for get redirected here>
+ * Create a
+ * Create a
+ */
 class PaymentControllerTest {
 
   private static final String TEST_TYPE = "WATER BILL";
@@ -99,11 +104,27 @@ class PaymentControllerTest {
   @InjectMocks
   private PaymentController paymentController;
 
+  /**
+   * Initializes Mockito annotations for the current test class. It uses MockitoAnnotations
+   * to mock objects and enable mock creation. This setup is typically required for
+   * JUnit tests using Mockito.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * Creates a PaymentDto object with predefined test data, including a UserDto and a
+   * HouseMemberDto. It constructs the PaymentDto with specified payment details, an
+   * associated user, and a house member.
+   *
+   * @returns a `PaymentDto` object with test data populated for payment details and
+   * associated user and house member information.
+   *
+   * The returned object has properties including paymentId, type, description, charge,
+   * dueDate, recurring, admin, and member.
+   */
   private PaymentDto createTestPaymentDto() {
     UserDto userDto = UserDto.builder()
         .userId(TEST_ADMIN_ID)
@@ -130,6 +151,14 @@ class PaymentControllerTest {
         .build();
   }
 
+  /**
+   * Creates a new instance of `CommunityDto` and initializes its properties with
+   * predefined values. The function returns the populated `CommunityDto` object. It
+   * appears to be a utility method for creating a test community data transfer object.
+   *
+   * @returns an instance of `CommunityDto` with specified name, district, and community
+   * ID.
+   */
   private CommunityDto createTestCommunityDto() {
     CommunityDto communityDto = new CommunityDto();
     communityDto.setName(TEST_COMMUNITY_NAME);
@@ -138,6 +167,20 @@ class PaymentControllerTest {
     return communityDto;
   }
 
+  /**
+   * Creates a mock community object with specified administrators, an empty set of
+   * users, and assigned community details. It also adds a mock community house to the
+   * community and returns the created community object.
+   *
+   * @param admins set of users assigned as administrators for the community being created.
+   *
+   * Contain a set of User objects.
+   *
+   * @returns a mock Community object with specified admins, houses, and attributes.
+   *
+   * Construct a Community object with a set of admins, an empty set of members, a name,
+   * an ID, a district, and an empty set of houses.
+   */
   private Community getMockCommunity(Set<User> admins) {
     Community community =
         new Community(admins, new HashSet<>(), TEST_COMMUNITY_NAME, TEST_COMMUNITY_ID,
@@ -154,6 +197,12 @@ class PaymentControllerTest {
     return community;
   }
 
+  /**
+   * Creates a mock instance of `CommunityHouse` with a specified name and ID, and
+   * initializes its `houseMembers` field as an empty `HashSet`.
+   *
+   * @returns a CommunityHouse object with specified name and ID, empty member set.
+   */
   private CommunityHouse getMockCommunityHouse() {
     CommunityHouse communityHouse = new CommunityHouse();
     communityHouse.setName(COMMUNITY_HOUSE_NAME);
@@ -163,6 +212,25 @@ class PaymentControllerTest {
     return communityHouse;
   }
 
+  /**
+   * Creates a mock payment object with predefined attributes, including a user,
+   * community, payment details, and a house member. It combines data from various sets
+   * and objects to form a comprehensive payment mock object. The payment is linked to
+   * a specific user and house member.
+   *
+   * @returns a Payment object with predefined attributes and associated user and house
+   * member information.
+   *
+   * The output is a `Payment` object with the following properties:
+   * - `id`: a unique identifier `TEST_ID`
+   * - `charge`: a monetary value `TEST_CHARGE`
+   * - `type`: a payment type `TEST_TYPE`
+   * - `description`: a payment description `TEST_DESCRIPTION`
+   * - `recurring`: a recurring payment flag `TEST_RECURRING`
+   * - `dueDate`: a due date `LocalDate.parse(TEST_DUE_DATE, DateTimeFormatter.ofPattern("yyyy-MM-dd"))`
+   * - `payer`: the payer `admin` (a `User` object)
+   * - `payee`: the payee (a `HouseMember` object)
+   */
   private Payment getMockPayment() {
     User admin =
         new User(TEST_ADMIN_NAME, TEST_ADMIN_ID, TEST_ADMIN_EMAIL, false, TEST_ADMIN_PASSWORD,
@@ -176,6 +244,11 @@ class PaymentControllerTest {
             new CommunityHouse()));
   }
 
+  /**
+   * Tests the functionality of scheduling a payment, verifying the successful creation
+   * of a payment and its associated response, and ensuring that the required mappings
+   * and service calls are made.
+   */
   @Test
   void shouldSchedulePaymentSuccessful() {
     // given
@@ -243,6 +316,12 @@ class PaymentControllerTest {
     verify(paymentService).getHouseMember(TEST_MEMBER_ID);
   }
 
+  /**
+   * Tests the payment controller's behavior when a member with the specified ID does
+   * not exist. It schedules a payment with a non-existent member, verifies that a
+   * RuntimeException is thrown, and checks the exception message matches the expected
+   * one.
+   */
   @Test
   void shouldNotScheduleIfMemberDoesNotExist() {
     // given
@@ -274,6 +353,11 @@ class PaymentControllerTest {
     verifyNoInteractions(paymentApiMapper);
   }
 
+  /**
+   * Tests the functionality of a payment controller to handle a case where an admin
+   * with a given ID does not exist. It verifies that a RuntimeException is thrown with
+   * a specific error message when scheduling a payment.
+   */
   @Test
   void shouldNotScheduleIfAdminDoesntExist() {
     // given
@@ -321,6 +405,11 @@ class PaymentControllerTest {
     verifyNoInteractions(paymentApiMapper);
   }
 
+  /**
+   * Tests the payment controller's schedule payment functionality. It verifies that a
+   * payment is not scheduled if the admin is not a member of the community, resulting
+   * in a 404 response.
+   */
   @Test
   void shouldNotScheduleIfAdminIsNotInCommunity() {
     // given
@@ -377,6 +466,11 @@ class PaymentControllerTest {
     verify(communityService).findCommunityAdminById(TEST_ADMIN_ID);
   }
 
+  /**
+   * Tests the successful retrieval of payment details from a payment controller. It
+   * verifies that a GET request to the controller returns a successful response with
+   * the expected payment details.
+   */
   @Test
   void shouldGetPaymentDetailsSuccess() {
     // given
@@ -408,6 +502,11 @@ class PaymentControllerTest {
     verify(paymentApiMapper).paymentToSchedulePaymentResponse(paymentDto);
   }
 
+  /**
+   * Tests the successful handling of a missing payment details scenario. It verifies
+   * that the controller returns a 404 status code and no response body when the payment
+   * service returns no payment details for a given ID.
+   */
   @Test
   void shouldListNoPaymentDetailsSuccess() {
     //given
@@ -425,6 +524,11 @@ class PaymentControllerTest {
     verifyNoInteractions(paymentApiMapper);
   }
 
+  /**
+   * Tests the payment controller's behavior when it is asked to list all member payments
+   * for a member who does not exist. The function verifies that a 404 status code is
+   * returned and no body is present.
+   */
   @Test
   void shouldGetNoMemberPaymentsSuccess() {
     //given
@@ -441,6 +545,11 @@ class PaymentControllerTest {
     verifyNoInteractions(paymentApiMapper);
   }
 
+  /**
+   * Tests the retrieval of a member's payments by ID, verifying that a successful
+   * response is returned with the correct status code and payment data, and that the
+   * payment service and mapper are correctly invoked.
+   */
   @Test
   void shouldGetMemberPaymentsSuccess() {
     // given
@@ -485,6 +594,11 @@ class PaymentControllerTest {
     verify(paymentApiMapper).memberPaymentSetToRestApiResponseMemberPaymentSet(payments);
   }
 
+  /**
+   * Tests the retrieval of scheduled payments for a specific admin. It simulates a
+   * successful response by mocking various services and verifies that the correct data
+   * is returned in the expected format.
+   */
   @Test
   void shouldGetAdminPaymentsSuccess() {
     // given
@@ -554,6 +668,11 @@ class PaymentControllerTest {
         new HashSet<>(payments));
   }
 
+  /**
+   * Tests the payment controller's response when an admin is not in the community. It
+   * verifies that a 404 status code is returned and no response body is provided. The
+   * community service is called to retrieve community details.
+   */
   @Test
   void shouldReturnNotFoundWhenAdminIsNotInCommunity() {
     //given
@@ -574,6 +693,11 @@ class PaymentControllerTest {
     verifyNoInteractions(paymentService);
   }
 
+  /**
+   * Tests the payment controller to throw a RuntimeException when a community with the
+   * given ID does not exist, verifying that the community service is called with the
+   * correct ID and that payment service and mapper are not interacted with.
+   */
   @Test
   void shouldThrowExceptionWhenCommunityNotExists() {
     //given

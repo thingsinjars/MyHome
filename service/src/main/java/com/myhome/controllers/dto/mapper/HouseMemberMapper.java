@@ -21,6 +21,9 @@ import com.myhome.model.HouseMemberDto;
 import java.util.Set;
 import org.mapstruct.Mapper;
 
+/**
+ * Provides mapping functionality between domain objects and data transfer objects.
+ */
 @Mapper
 public interface HouseMemberMapper {
   Set<com.myhome.model.HouseMember> houseMemberSetToRestApiResponseHouseMemberSet(

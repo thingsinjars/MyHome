@@ -40,6 +40,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Provides RESTful APIs for managing community houses and their members, including
+ * listing houses, retrieving house details, adding and deleting members.
+ */
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -48,6 +52,28 @@ public class HouseController implements HousesApi {
   private final HouseService houseService;
   private final HouseApiMapper houseApiMapper;
 
+  /**
+   * Handles a request to retrieve a paginated list of houses. It calls the `houseService`
+   * to fetch the details, maps the result to a REST API response format using the
+   * `houseApiMapper`, and returns the response with a 200 OK status.
+   *
+   * @param pageable pagination settings for retrieving a subset of data, allowing the
+   * function to handle large data sets efficiently.
+   *
+   * Destructure:
+   * - `pageable` has a `size` property, specifying the number of records to return per
+   * page, set to 200 by default.
+   *
+   * Its main properties include:
+   * - `size`: The number of records to return per page.
+   * - `pageNumber`: The page number to return.
+   *
+   * @returns a ResponseEntity containing a GetHouseDetailsResponse object with a set
+   * of CommunityHouse details.
+   *
+   * The output is a `ResponseEntity` containing a `GetHouseDetailsResponse` object,
+   * which has a single property: a set of `GetHouseDetailsResponseCommunityHouse` objects.
+   */
   @Override
   public ResponseEntity<GetHouseDetailsResponse> listAllHouses(
       @PageableDefault(size = 200) Pageable pageable) {
@@ -65,6 +91,15 @@ public class HouseController implements HousesApi {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
+  /**
+   * Retrieves house details by ID, maps the result to a REST API response, and returns
+   * it as a ResponseEntity. If no house is found, it returns a 404 ResponseEntity.
+   *
+   * @param houseId identifier of the house for which details are being requested.
+   *
+   * @returns a ResponseEntity containing a GetHouseDetailsResponse with a list of
+   * CommunityHouse objects.
+   */
   @Override
   public ResponseEntity<GetHouseDetailsResponse> getHouseDetails(String houseId) {
     log.trace("Received request to get details of a house with id[{}]", houseId);
@@ -76,6 +111,23 @@ public class HouseController implements HousesApi {
         .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Fetches all members of a house with the specified ID, paginates the result, and
+   * returns them in a ListHouseMembersResponse entity wrapped in a ResponseEntity. It
+   * handles pagination and returns a 404 response if no members are found.
+   *
+   * @param houseId identifier of a house for which all members are to be listed.
+   *
+   * @param pageable pagination settings, allowing for the retrieval of a specified
+   * number of items at a time, defaulting to 200 items if not otherwise specified.
+   *
+   * Destructure:
+   * - `pageable` has properties `pageNumber` and `pageSize`.
+   *
+   * @returns a list of house members in a `ListHouseMembersResponse` object.
+   *
+   * Contain a ResponseEntity object with a List of HouseMembers.
+   */
   @Override
   public ResponseEntity<ListHouseMembersResponse> listAllMembersOfHouse(
       String houseId,
@@ -90,6 +142,22 @@ public class HouseController implements HousesApi {
         .orElse(ResponseEntity.notFound().build());
   }
 
+  /**
+   * Adds members to a house by mapping request data to house members, saving them, and
+   * returning a response with the added members.
+   *
+   * @param houseId identifier of the house to which the members are being added.
+   *
+   * @param request AddHouseMemberRequest object containing the members to be added to
+   * a house, retrieved from the request body or other source.
+   *
+   * Contain members.
+   *
+   * @returns a ResponseEntity containing an AddHouseMemberResponse object with added
+   * house members.
+   *
+   * The output is a `ResponseEntity` object with an `AddHouseMemberResponse` body.
+   */
   @Override
   public ResponseEntity<AddHouseMemberResponse> addHouseMembers(
       @PathVariable String houseId, @Valid AddHouseMemberRequest request) {
@@ -109,6 +177,21 @@ public class HouseController implements HousesApi {
     }
   }
 
+  /**
+   * Handles deletion of a member from a house by the house service and returns a 204
+   * response if successful or 404 if the member is not found.
+   *
+   * @param houseId identifier for the house from which a member is to be deleted.
+   *
+   * @param memberId identifier of the member to be deleted from the specified house.
+   *
+   * @returns a ResponseEntity indicating either a successful deletion (NO_CONTENT) or
+   * a non-existent member (NOT_FOUND).
+   *
+   * The returned output is a `ResponseEntity` object with a status code of either
+   * `NO_CONTENT` or `NOT_FOUND`.
+   * It has no response body.
+   */
   @Override
   public ResponseEntity<Void> deleteHouseMember(String houseId, String memberId) {
     log.trace("Received request to delete a member from house with house id[{}] and member id[{}]",

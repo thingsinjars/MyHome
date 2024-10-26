@@ -41,6 +41,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Provides unit tests for the PaymentSDJpaService class, ensuring its methods function
+ * as expected.
+ */
 class PaymentSDJpaServiceTest {
 
   private final BigDecimal TEST_PAYMENT_CHARGE = new BigDecimal(1000);
@@ -65,11 +69,20 @@ class PaymentSDJpaServiceTest {
   @InjectMocks
   private PaymentSDJpaService paymentSDJpaService;
 
+  /**
+   * Initializes Mockito annotations for the test class.
+   * MockitoAnnotations.initMocks(this) method is called to initialize the mocks.
+   * This is typically done in a JUnit test class to enable mocking.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * Schedules a payment by persisting a payment entity and its associated user in the
+   * database, generates a payment ID, and returns the scheduled payment details.
+   */
   @Test
   void schedulePayment() {
     //given
@@ -89,6 +102,11 @@ class PaymentSDJpaServiceTest {
     assertEquals(basePaymentDto,testPaymentScheduled); //Completion: method returns what is expected
   }
 
+  /**
+   * Tests the retrieval of payment details from a database using a service class. It
+   * verifies that a payment with a specified ID is found, and the returned details
+   * match the expected output.
+   */
   @Test
   void getPaymentDetails() {
     //when
@@ -108,6 +126,12 @@ class PaymentSDJpaServiceTest {
     assertEquals(optionalOfTestPaymentDto,testPaymentDetails); //Completion: method returns what is expected
   }
 
+  /**
+   * Fetches a house member from the database using the `houseMemberRepository`. It
+   * retrieves the member by a specified ID and returns an `Optional` containing the
+   * member if found. The function verifies the correct database query execution and
+   * expected result.
+   */
   @Test
   void getHouseMember() {
     //given
@@ -126,6 +150,11 @@ class PaymentSDJpaServiceTest {
     assertEquals(baseHouseMemberOptional,testHouseMember); //Completion: method returns what is expected
   }
 
+  /**
+   * Tests a service method that retrieves payments by a specific member ID from a
+   * database repository. It verifies the correct execution of the method and checks
+   * if it returns the expected payments.
+   */
   @Test
   void getPaymentsByMember() {
     //given
@@ -159,6 +188,11 @@ class PaymentSDJpaServiceTest {
     assertEquals(expectedReturn1,testPaymentByMember1); //Completion: method returns what is expected
   }
 
+  /**
+   * Tests the retrieval of payments by a specific admin user. It uses Mockito to mock
+   * the payment repository and verify the correct execution of the `getPaymentsByAdmin`
+   * method.
+   */
   @Test
   void getPaymentsByAdmin() {
     //given

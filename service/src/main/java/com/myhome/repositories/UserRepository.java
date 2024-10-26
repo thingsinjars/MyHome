@@ -26,6 +26,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Extends Spring Data JPA to provide data access operations for the User entity,
+ * including custom queries and association loading.
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 

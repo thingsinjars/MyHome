@@ -54,6 +54,12 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
+/**
+ * This isUse the following the Community testCommunity is notFound that this is
+ *         are used in
+ * Create a
+ * Create a
+ */
 public class CommunitySDJpaServiceTest {
 
   private final String TEST_COMMUNITY_ID = "test-community-id";
@@ -85,11 +91,23 @@ public class CommunitySDJpaServiceTest {
   @InjectMocks
   private CommunitySDJpaService communitySDJpaService;
 
+  /**
+   * Is a JUnit setup method, annotated with `@BeforeEach`, which initializes Mockito
+   * annotations for the test class.
+   * MockitoAnnotations.initMocks(this) sets up Mockito mock objects.
+   */
   @BeforeEach
   private void init() {
     MockitoAnnotations.initMocks(this);
   }
 
+  /**
+   * Returns a new instance of the `User` class, initialized with predefined test
+   * administrator data, including name, ID, email, password, and empty sets for roles
+   * and permissions.
+   *
+   * @returns an instance of the User class with specified attributes.
+   */
   private User getTestAdmin() {
     return new User(
         TEST_ADMIN_NAME,
@@ -101,6 +119,11 @@ public class CommunitySDJpaServiceTest {
         new HashSet<>());
   }
 
+  /**
+   * Tests the retrieval of all communities from a data repository. It verifies that
+   * the `communitySDJpaService` successfully retrieves a set of communities and that
+   * the `communityRepository` is called with the `findAll` method.
+   */
   @Test
   void listAllCommunities() {
     // given
@@ -116,6 +139,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository).findAll();
   }
 
+  /**
+   * Tests the creation of a community by a community administrator. It verifies that
+   * a community is successfully created with the provided details, and that the necessary
+   * repository and mapper interactions occur correctly.
+   */
   @Test
   void createCommunity() {
     // given
@@ -144,6 +172,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository).save(testCommunity);
   }
 
+  /**
+   * Retrieves a list of community houses for a given community ID from the database
+   * and returns it as an optional list, verifying that the community and community
+   * houses exist in the database.
+   */
   @Test
   void findCommunityHousesById() {
     // given
@@ -166,6 +199,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityHouseRepository).findAllByCommunity_CommunityId(TEST_COMMUNITY_ID, null);
   }
 
+  /**
+   * Tests the retrieval of community houses by a non-existent community ID. It asserts
+   * that an empty result is returned and verifies that the community repository is
+   * queried for existence, but the community house repository is not queried for data.
+   */
   @Test
   void findCommunityHousesByIdNotExist() {
     // given
@@ -183,6 +221,10 @@ public class CommunitySDJpaServiceTest {
         null);
   }
 
+  /**
+   * Returns a list of community administrators corresponding to a given community ID,
+   * utilizing a service layer to interact with the community and community admin repositories.
+   */
   @Test
   void findCommunityAdminsById() {
     // given
@@ -205,6 +247,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityAdminRepository).findAllByCommunities_CommunityId(TEST_COMMUNITY_ID, null);
   }
 
+  /**
+   * Tests the retrieval of community admins for a non-existent community ID, verifying
+   * that an empty result is returned and the community repository's `existsByCommunityId`
+   * method is called.
+   */
   @Test
   void findCommunityAdminsByIdNotExists() {
     // given
@@ -220,6 +267,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository).existsByCommunityId(TEST_COMMUNITY_ID);
   }
 
+  /**
+   * Adds administrators to a community. It takes a community ID and a set of administrator
+   * IDs, updates the community with the new administrators, and verifies that the
+   * administrators are associated with the community.
+   */
   @Test
   void addAdminsToCommunity() {
     // given
@@ -253,6 +305,11 @@ public class CommunitySDJpaServiceTest {
         admin -> verify(communityAdminRepository).findByUserIdWithCommunities(admin.getUserId()));
   }
 
+  /**
+   * Tests the addition of admins to a non-existent community by verifying that the
+   * community repository is called and that an empty result is returned when the
+   * community does not exist.
+   */
   @Test
   void addAdminsToCommunityNotExist() {
     // given
@@ -268,6 +325,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository).findByCommunityIdWithAdmins(TEST_COMMUNITY_ID);
   }
 
+  /**
+   * Tests the retrieval of a community by its ID from a data repository. It verifies
+   * that the repository returns the expected community object when provided with a
+   * valid ID.
+   */
   @Test
   void communityDetailsById() {
     // given
@@ -285,6 +347,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository).findByCommunityId(TEST_COMMUNITY_ID);
   }
 
+  /**
+   * Retrieves community details by ID along with associated administrators from a
+   * database repository. It uses a service layer to encapsulate the database interaction
+   * and verify the repository's behavior. The result is an optional community object.
+   */
   @Test
   void communityDetailsByIdWithAdmins() {
     // given
@@ -302,6 +369,10 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository).findByCommunityIdWithAdmins(TEST_COMMUNITY_ID);
   }
 
+  /**
+   * Adds a specified number of houses to a community, saves the updated community, and
+   * returns the IDs of the added houses.
+   */
   @Test
   void addHousesToCommunity() {
     // given
@@ -332,6 +403,10 @@ public class CommunitySDJpaServiceTest {
     });
   }
 
+  /**
+   * Checks if adding houses to a non-existent community results in no added houses and
+   * verifies that database operations are not performed.
+   */
   @Test
   void addHousesToCommunityNotExist() {
     // given
@@ -351,6 +426,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityHouseRepository, never()).save(any());
   }
 
+  /**
+   * Tests the functionality of adding houses to a community that already exists. It
+   * verifies that no new houses are saved to the database when a community with existing
+   * houses is updated.
+   */
   @Test
   void addHousesToCommunityHouseExists() {
     // given
@@ -375,6 +455,10 @@ public class CommunitySDJpaServiceTest {
     verify(communityHouseRepository, never()).save(any());
   }
 
+  /**
+   * Removes an admin from a community by community ID and admin ID, updating the
+   * community repository accordingly, and returns a boolean indicating successful removal.
+   */
   @Test
   void removeAdminFromCommunity() {
     // given
@@ -397,6 +481,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository).save(testCommunity);
   }
 
+  /**
+   * Tests the removal of an admin from a non-existent community. It verifies that the
+   * function returns false when the community does not exist, and that the repository
+   * is queried but not saved.
+   */
   @Test
   void removeAdminFromCommunityNotExists() {
     // given
@@ -413,6 +502,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository, never()).save(any());
   }
 
+  /**
+   * Tests the removal of an admin from a community when the admin does not exist. It
+   * checks if the community service returns false and verifies that the repository is
+   * queried but not updated.
+   */
   @Test
   void removeAdminFromCommunityAdminNotExists() {
     // given
@@ -433,6 +527,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository, never()).save(testCommunity);
   }
 
+  /**
+   * Tests the deletion of a community with its associated houses from the database.
+   * It verifies that the community is successfully deleted and that the correct database
+   * operations are performed.
+   */
   @Test
   void deleteCommunity() {
     // given
@@ -461,6 +560,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository).delete(testCommunity);
   }
 
+  /**
+   * Tests the deletion of a non-existent community. It simulates a community repository
+   * that returns an empty optional when searching for a community by ID, and verifies
+   * that the community is not deleted and the expected database interactions do not occur.
+   */
   @Test
   void deleteCommunityNotExists() {
     // given
@@ -479,6 +583,10 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository, never()).delete(testCommunity);
   }
 
+  /**
+   * Removes a house from a community by its ID, deleting its associated house members
+   * and updating the community repository.
+   */
   @Test
   void removeHouseFromCommunityByHouseId() {
     // given
@@ -508,6 +616,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityHouseRepository).deleteByHouseId(TEST_HOUSE_ID);
   }
 
+  /**
+   * Tests the removal of a house from a non-existent community by house ID. It verifies
+   * that the function returns false when the community does not exist and that the
+   * correct repositories are not interacted with.
+   */
   @Test
   void removeHouseFromCommunityByHouseIdCommunityNotExists() {
     // given
@@ -527,6 +640,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository, never()).save(testCommunity);
   }
 
+  /**
+   * Tests the removal of a non-existent house from a community. It verifies that the
+   * house deletion is not successful, the community house repository is called, the
+   * house service is not interacted with, and the community is not saved.
+   */
   @Test
   void removeHouseFromCommunityByHouseIdHouseNotExists() {
     // given
@@ -546,6 +664,11 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository, never()).save(testCommunity);
   }
 
+  /**
+   * Tests the removal of a house from a community when the house is not present in the
+   * community. It checks that the house is not deleted and that the community repository
+   * is queried accordingly. The community service saves the community after deletion.
+   */
   @Test
   void removeHouseFromCommunityByHouseIdHouseNotInCommunity() {
     // given
@@ -565,6 +688,14 @@ public class CommunitySDJpaServiceTest {
     verify(communityRepository, never()).save(testCommunity);
   }
 
+  /**
+   * Creates a CommunityDto object with predefined attributes, specifically a community
+   * ID, district, and name, and returns it. The attributes are assumed to be constants
+   * or predefined variables. This function is likely used for testing purposes.
+   *
+   * @returns a CommunityDto object populated with TEST_COMMUNITY_ID, TEST_COMMUNITY_DISTRICT,
+   * and TEST_COMMUNITY_NAME.
+   */
   private CommunityDto getTestCommunityDto() {
     CommunityDto testCommunityDto = new CommunityDto();
     testCommunityDto.setCommunityId(TEST_COMMUNITY_ID);

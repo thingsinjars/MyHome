@@ -33,6 +33,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.Filter;
 
+/**
+ * Configure Spring Security settings to enable CORS, disable CSRF and frame options,
+ * and implement JWT-based authentication with Community authorization filter.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -43,6 +47,18 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   private final PasswordEncoder passwordEncoder;
   private final AppJwtEncoderDecoder appJwtEncoderDecoder;
 
+  /**
+   * Disables CSRF and frame options, enables stateless sessions, and adds filters for
+   * community and authorization. It also defines authorization rules for specific URLs
+   * and methods, allowing public access while requiring authentication for all other
+   * requests.
+   *
+   * @param http configuration of the HTTP security, which is used to configure and
+   * customize the security settings for an application.
+   *
+   * Disable cross-origin resource sharing, enable CSRF protection, and configure frame
+   * options are disabled.
+   */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable();
@@ -77,10 +93,26 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .addFilterAfter(getCommunityFilter(), MyHomeAuthorizationFilter.class);
   }
 
+  /**
+   * Returns an instance of `CommunityAuthorizationFilter` configured with the provided
+   * `authenticationManager` and `communityService`. The filter is used to authorize
+   * community access. It throws an `Exception` if configuration is invalid.
+   *
+   * @returns an instance of `CommunityAuthorizationFilter`.
+   */
   private Filter getCommunityFilter() throws Exception {
     return new CommunityAuthorizationFilter(authenticationManager(), communityService);
   }
 
+  /**
+   * Configures the authentication manager by setting up a user details service and
+   * password encoder.
+   * It links the user details service with the password encoder for secure password handling.
+   * This configuration is typically used in a Spring Security application.
+   *
+   * @param auth AuthenticationManagerBuilder instance used to configure the authentication
+   * mechanism.
+   */
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);

@@ -43,6 +43,17 @@ public class HouseMemberDocumentController implements DocumentsApi {
 
   private final HouseMemberDocumentService houseMemberDocumentService;
 
+  /**
+   * Returns a house member document in JPEG format.
+   * It accepts a member ID as a path variable and searches for the corresponding document.
+   * If the document is found, it is returned with a cache-control header set to no-cache
+   * and a content disposition header to display the image inline.
+   *
+   * @param memberId identifier for the house member document to be retrieved.
+   *
+   * @returns a ResponseEntity containing a byte array representing the house member
+   * document, or a 404 error.
+   */
   @Override
   public ResponseEntity<byte[]> getHouseMemberDocument(@PathVariable String memberId) {
     log.trace("Received request to get house member documents");
@@ -68,6 +79,24 @@ public class HouseMemberDocumentController implements DocumentsApi {
     }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
+  /**
+   * Processes a request to add a document for a house member by a given ID. It creates
+   * a new document using the provided file and ID, then returns a response indicating
+   * success or failure.
+   *
+   * @param memberId identifier of the house member to whom the document is being uploaded.
+   *
+   * @param memberDocument file to be uploaded as a house member document.
+   *
+   * Extracted as a MultipartFile, its main properties include a name, original filename,
+   * content type, bytes, and a description.
+   *
+   * @returns either a 204 NO CONTENT response if the document is successfully uploaded
+   * or a 404 NOT FOUND response if it is not.
+   *
+   * The output is a ResponseEntity with a status code of either HttpStatus.NO_CONTENT
+   * (204) or HttpStatus.NOT_FOUND (404).
+   */
   @Override
   public ResponseEntity uploadHouseMemberDocument(
       @PathVariable String memberId, @RequestParam("memberDocument") MultipartFile memberDocument) {
@@ -80,6 +109,19 @@ public class HouseMemberDocumentController implements DocumentsApi {
         .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
+  /**
+   * Updates a house member document based on the provided `memberId` and `memberDocument`.
+   * It returns a `ResponseEntity` indicating a successful update (no content) or a not
+   * found status if the document does not exist.
+   *
+   * @param memberId identifier for the house member document being updated.
+   *
+   * @param memberDocument file to be updated for a house member, passed as a multipart
+   * file.
+   *
+   * @returns a ResponseEntity with either a NO_CONTENT status (200) or a NOT_FOUND
+   * status (404).
+   */
   @Override
   public ResponseEntity updateHouseMemberDocument(
       @PathVariable String memberId, @RequestParam("memberDocument") MultipartFile memberDocument) {
@@ -91,6 +133,16 @@ public class HouseMemberDocumentController implements DocumentsApi {
         .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
   }
 
+  /**
+   * Handles deletion of house member documents based on the provided `memberId`. It
+   * calls the `houseMemberDocumentService` to perform the deletion and returns a
+   * `ResponseEntity` indicating success or failure.
+   *
+   * @param memberId identifier for the house member document to be deleted.
+   *
+   * @returns either a 204 (NO_CONTENT) response if the document is deleted or a 404
+   * (NOT_FOUND) response otherwise.
+   */
   @Override
   public ResponseEntity<Void> deleteHouseMemberDocument(@PathVariable String memberId) {
     log.trace("Received request to delete house member documents");

@@ -24,6 +24,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a document associated with a house member, storing its filename and
+ * content in a database.
+ *
+ * - documentFilename (String): stores a unique string representing the filename of
+ * a document.
+ *
+ * - documentContent (byte[]): stores binary data.
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

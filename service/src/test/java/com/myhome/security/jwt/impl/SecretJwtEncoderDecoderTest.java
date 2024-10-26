@@ -23,6 +23,10 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Contains unit tests for a SecretJwtEncoderDecoder class, verifying its methods for
+ * encoding and decoding JSON Web Tokens (JWTs).
+ */
 class SecretJwtEncoderDecoderTest {
   private static final String TEST_USER_ID = "test-user-id";
 
@@ -37,6 +41,11 @@ class SecretJwtEncoderDecoderTest {
       + "secretsecretsecretsecretsecretsecretsecretsecret"
       + "secretsecretsecretsecretsecretsecretsecretsecret";
 
+  /**
+   * Tests the successful encoding of a JWT with a secret key. It creates a JWT object
+   * with a user ID and an expiration time, then uses a secret key to encode it, verifying
+   * that the encoded token is not null.
+   */
   @Test
   void jwtEncodeSuccess() {
     // given
@@ -49,6 +58,12 @@ class SecretJwtEncoderDecoderTest {
     Assertions.assertNotNull(jwtEncoderDecoder.encode(appJwt, VALID_SECRET));
   }
 
+  /**
+   * Tests that a `WeakKeyException` is thrown when encoding a JWT with an invalid
+   * secret key. It uses the `SecretJwtEncoderDecoder` class to encode the JWT and
+   * asserts that an exception is thrown. The test uses a mock `AppJwt` object with a
+   * specified expiration time and user ID.
+   */
   @Test
   void jwtEncodeFailWithException() {
     // given
@@ -60,6 +75,11 @@ class SecretJwtEncoderDecoderTest {
         () -> jwtEncoderDecoder.encode(appJwt, INVALID_SECRET));
   }
 
+  /**
+   * Verifies the successful decoding of a JSON Web Token (JWT). It encodes a token
+   * with a secret, decodes it with the same secret, and checks for a non-null decoded
+   * token with the expected user ID and expiration.
+   */
   @Test
   void jwtDecodeSuccess() {
     // given
@@ -77,6 +97,11 @@ class SecretJwtEncoderDecoderTest {
     Assertions.assertNotNull(decodedJwt.getExpiration());
   }
 
+  /**
+   * Tests the failure of JWT decoding with an expired JWT. It uses the `SecretJwtEncoderDecoder`
+   * to attempt to decode an expired JWT using a valid secret, expecting an
+   * `ExpiredJwtException` to be thrown.
+   */
   @Test
   void jwtDecodeFailWithExpiredJwt() {
     // given

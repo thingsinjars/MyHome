@@ -25,6 +25,10 @@ import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.domain.Pageable;
 
+/**
+ * Provides a set of methods for managing community data, including creation, listing,
+ * retrieval, and modification of communities, houses, and administrators.
+ */
 public interface CommunityService {
   Community createCommunity(CommunityDto communityDto);
 

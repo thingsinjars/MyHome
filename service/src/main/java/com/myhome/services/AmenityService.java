@@ -22,6 +22,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Defines a contract for managing amenities, encompassing operations such as creation,
+ * retrieval, deletion, and updating.
+ */
 public interface AmenityService {
 
   Optional<List<AmenityDto>> createAmenities(Set<AmenityDto> amenities, String communityId);

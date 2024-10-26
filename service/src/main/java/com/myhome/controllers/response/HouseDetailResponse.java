@@ -21,6 +21,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a data model for encapsulating house detail information.
+ *
+ * - house (CommunityHouseDto): is a private field representing a CommunityHouseDto
+ * object.
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
